@@ -1,16 +1,24 @@
-# the compiler: gcc for C program, define as g++ for C++
-CC = g++
+# g++ $(pkg-config --cflags --libs cairomm-1.0 libgps) -std=c++17 GPS.cpp FrameBuffer.cpp main.cpp -o main -lcairomm-1.0 -lgps
 
-# compiler flags:
+CXX = g++
 
-CFLAGS  = -std=c++17 -Wall
-LIBS = cairomm-1.0 libgps
 TARGET = main
+OUTPUT = ./dist/main
 
-all: $(TARGET)
+FLAGS = -std=c++17 -Wall
 
-$(TARGET): src/$(TARGET).cpp
-			$(CC) $(pkg-config --cflags --libs $(LIBS)) $(CFLAGS) -o $(TARGET) src/$(TARGET).cpp
+PKGS = cairomm-1.0 libgps
+LIBS = cairomm-1.0 gps
 
+
+LIB_FLAGS := $(addprefix -l,$(LIBS))
+
+# The final build step.
+$(TARGET):
+	$(CXX) $$(pkg-config --cflags --libs $(PKGS)) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
+
+
+
+.PHONY: clean
 clean:
-			$(RM) $(TARGET)
+	rm -r $(BUILD_DIR)
