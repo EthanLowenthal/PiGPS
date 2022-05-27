@@ -1,0 +1,72 @@
+// g++ $(pkg-config --cflags --libs cairomm-1.0 libgps) -std=c++17 GPS.cpp FrameBuffer.cpp main.cpp -o main -lcairomm-1.0 -lgps
+// https://techoverflow.net/2021/10/19/how-to-hide-all-boot-text-blinking-cursor-on-raspberry-pi/
+
+#include <iostream>
+#include <string>
+#include <ctime>
+
+#include <cairomm/context.h>
+#include <cairomm/surface.h>
+
+#include "FrameBuffer.cpp"
+#include "GPS.cpp"
+
+int main() {
+  FrameBuffer fb {0};
+  // TODO doubble buffer with memcpy?
+
+  auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_ARGB32, 
+		fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
+  auto cr = Cairo::Context::create(surface);
+  cr->arc(surface->get_width() / 2.0, surface->get_height() / 2.0, 
+          surface->get_height() / 4.0, 0.0, 2.0 * 3.14159);
+
+  clock_t current_ticks, delta_ticks;
+  clock_t fps = 0;
+
+  GPS gps {};
+
+  while (true) {
+    current_ticks = clock();
+    
+    gps.update();
+
+    cr->rectangle(0,0,surface->get_width(),surface->get_height());
+    cr->set_source_rgb(0, 0, 0);
+    cr->fill();
+
+    cr->select_font_face("serif",
+        Cairo::FontSlant::FONT_SLANT_NORMAL,
+        Cairo::FontWeight::FONT_WEIGHT_BOLD);
+
+    cr->set_font_size(40);
+
+    cr->set_source_rgb(1, 0, 1);
+
+    cr->move_to(20, 30);
+    cr->show_text("Latitude: "+std::to_string(gps.lat));  
+    cr->move_to(20, 100);
+    cr->show_text("Longitude: "+std::to_string(gps.lon));  
+    cr->move_to(20, 170);
+    cr->show_text("Speed: "+std::to_string(gps.speed));  
+    cr->move_to(20, 240);
+    cr->show_text("CMG: "+std::to_string(gps.heading));  
+
+    delta_ticks = clock() - current_ticks; 
+    if(delta_ticks > 0)
+        fps = CLOCKS_PER_SEC / delta_ticks;
+
+    cr->move_to(surface->get_width()-100, 30);
+    cr->show_text(std::to_string(fps));  
+    fb.flip();
+
+    // std::cout << "FPS: " << fps << std::endl;
+  }
+
+
+    
+  // while (true) {
+  //   fb.fill(0xFFFFFF);
+  //   fb.draw_rectangle(100, 100, 70, 100, 0xFF0000);
+  // }
+}
