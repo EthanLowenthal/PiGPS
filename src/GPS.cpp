@@ -43,6 +43,6 @@ class GPS {
         // const auto s_used{gpsd_data->satellites_used};
         
         std::cout << std::setprecision(8) << std::fixed;  // set output to fixed floating point, 8 decimal precision
-        std::cout << lat << "," << lon << "," << speed << "," << heading << std::endl;
+        std::cout << lat << ", " << lon << ", " << speed << " +- " << gpsd_data->fix.eps << ", " << gpsd_data->fix.time << std::endl;
     }
 };
