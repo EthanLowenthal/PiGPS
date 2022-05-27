@@ -63,7 +63,7 @@ class GPS {
         double dt = last_update - current_time;
 
         double dist_traveled = calculateDistance(lat, lon, new_lat, new_lon);
-        double estimated_speed = dist_traveled * dt * 1e-9;
+        double estimated_speed = dist_traveled / dt * 2.237e+12;
 
         last_update = current_time;
         lat = new_lat;
