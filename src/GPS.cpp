@@ -35,7 +35,9 @@ class GPS {
         lon = gpsd_data->fix.longitude;
         speed = gpsd_data->fix.speed * MPS_MPH;
         heading = gpsd_data->fix.track;
-
+        double eps = gpsd_data->fix.eps;
+        std::string time = gpsd_data->fix.time;
+        
         // const auto hdop{gpsd_data->dop.hdop};
         // const auto vdop{gpsd_data->dop.vdop};
         // const auto pdop{gpsd_data->dop.pdop};
@@ -43,6 +45,6 @@ class GPS {
         // const auto s_used{gpsd_data->satellites_used};
         
         std::cout << std::setprecision(8) << std::fixed;  // set output to fixed floating point, 8 decimal precision
-        std::cout << lat << ", " << lon << ", " << speed << " +- " << gpsd_data->fix.eps << ", " << gpsd_data->fix.time << std::endl;
+        std::cout << lat << ", " << lon << ", " << speed << " +- " << eps << ", " << time << std::endl;
     }
 };
