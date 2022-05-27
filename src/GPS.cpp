@@ -1,4 +1,5 @@
 #include <libgpsmm.h>
+#include <stdlib.h>
 
 #include <ctime>
 #include <iomanip>
@@ -16,6 +17,8 @@ class GPS {
     double speed {};
     double heading {};
     GPS() : gps_rec("localhost", DEFAULT_GPSD_PORT) {
+        system("~/PiGPS/start_gpsd.sh");
+
         if (gps_rec.stream(WATCH_ENABLE | WATCH_JSON) == nullptr) {
             std::cerr << "No GPSD running.\n";
         }
