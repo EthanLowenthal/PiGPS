@@ -9,18 +9,17 @@ FLAGS = -std=c++17 -Wall
 
 SRC_DIRS = ./src
 
-PKGS = cairomm-1.0 libgps
 LIBS = cairomm-1.0 gps
+PKGS = cairomm-1.0 libgps
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 LIB_FLAGS := $(addprefix -l,$(LIBS))
+PKG_FLAGS = $(shell pkg-config --cflags --libs $(PKGS))
 
-# The final build step.
 $(TARGET):
-	$(CXX) $$(pkg-config --cflags --libs $(LIBS)) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
+	$(CXX) $(PKG_FLAGS) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
 
 
-
-.PHONY: clean
-clean:
-	rm -r $(BUILD_DIR)
+# .PHONY: clean
+# clean:
+# 	rm -r $(BUILD_DIR)
