@@ -60,7 +60,7 @@ class GPS {
         double new_lat = gpsd_data->fix.latitude;
         double new_lon = gpsd_data->fix.longitude;
 
-        double current_time = gpsd_data->fix.time.tv_nsec;
+        double current_time = gpsd_data->fix.time.tv_sec;
         double dt = current_time - last_update;
 
         double dist_traveled = latLonDist(lat, lon, new_lat, new_lon);
