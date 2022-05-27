@@ -8,6 +8,7 @@
 #include <thread>
 
 const double MPS_TO_KTS = 1.94384;
+const double MPS_TO_MPH = 2.23693;
 
 class GPS {
     public:
@@ -32,7 +33,7 @@ class GPS {
 
         lat = gpsd_data->fix.latitude;
         lon = gpsd_data->fix.longitude;
-        speed = gpsd_data->fix.speed * MPS_TO_KTS;
+        speed = gpsd_data->fix.speed * MPS_TO_MPH;
         heading = gpsd_data->fix.track;
 
         // const auto hdop{gpsd_data->dop.hdop};
