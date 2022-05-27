@@ -59,7 +59,7 @@ class GPS {
         double new_lat = gpsd_data->fix.latitude;
         double new_lon = gpsd_data->fix.longitude;
 
-        double current_time = gpsd_data->fix.time.tv_nsec
+        double current_time = gpsd_data->fix.time.tv_nsec;
         double dt = last_update - current_time;
 
         double dist_traveled = calculateDistance(lat, lon, new_lat, new_lon);
