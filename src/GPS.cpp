@@ -14,20 +14,6 @@ const double PI = 3.14159265358979323846;
 const double MPS_TO_KTS = 1.94384;
 const double MPS_MPH = 2.23693;
 
-double toRad(double degree) {
-    return degree/180 * PI;
-}
-
-double latLonDist(double lat1, double long1, double lat2, double long2) {
-    double dist;
-    dist = sin(toRad(lat1)) * sin(toRad(lat2)) + cos(toRad(lat1)) * cos(toRad(lat2)) * cos(toRad(long1 - long2));
-    dist = acos(dist);
-//        dist = (6371 * pi * dist) / 180;
-    //got dist in radian, no need to change back to degree and convert to rad again.
-    dist = 6371 * dist;
-    return dist;
-}
-
 class GPS {
     public:
     gpsmm gps_rec;
@@ -36,6 +22,21 @@ class GPS {
     double speed {};
     double heading {};
     double last_update {};
+
+    double toRad(double degree) {
+        return degree/180 * PI;
+    }
+
+    double latLonDist(double lat1, double long1, double lat2, double long2) {
+        double dist;
+        dist = sin(toRad(lat1)) * sin(toRad(lat2)) + cos(toRad(lat1)) * cos(toRad(lat2)) * cos(toRad(long1 - long2));
+        dist = acos(dist);
+    //        dist = (6371 * pi * dist) / 180;
+        //got dist in radian, no need to change back to degree and convert to rad again.
+        dist = 6371 * dist;
+        return dist;
+    }
+
     GPS() : gps_rec("localhost", DEFAULT_GPSD_PORT) {
         // system("~/PiGPS/start_gpsd.sh");
 
