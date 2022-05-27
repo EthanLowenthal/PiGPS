@@ -9,7 +9,7 @@ TARGET = main
 
 all: $(TARGET)
 
-$(TARGET): $(TARGET).c
+$(TARGET): src/$(TARGET).cpp
 			$(CC) $(pkg-config --cflags --libs LIBS) $(CFLAGS) -o $(TARGET) src/$(TARGET).cpp
 
 clean:
