@@ -10,7 +10,7 @@ TARGET = main
 all: $(TARGET)
 
 $(TARGET): src/$(TARGET).cpp
-			$(CC) $(pkg-config --cflags --libs LIBS) $(CFLAGS) -o $(TARGET) src/$(TARGET).cpp
+			$(CC) $(pkg-config --cflags --libs $(LIBS)) $(CFLAGS) -o $(TARGET) src/$(TARGET).cpp
 
 clean:
 			$(RM) $(TARGET)
