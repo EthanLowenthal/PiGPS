@@ -16,6 +16,7 @@ SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 LIB_FLAGS := $(addprefix -l,$(LIBS))
 PKG_FLAGS = $(shell pkg-config --cflags --libs $(PKGS))
 
+.PHONY: $(TARGET)
 $(TARGET):
 	$(CXX) $(PKG_FLAGS) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
 
