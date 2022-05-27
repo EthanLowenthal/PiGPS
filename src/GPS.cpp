@@ -61,7 +61,7 @@ class GPS {
         double new_lon = gpsd_data->fix.longitude;
 
         double current_time = gpsd_data->fix.time.tv_nsec;
-        double dt = last_update - current_time;
+        double dt = current_time - last_update;
 
         double dist_traveled = latLonDist(lat, lon, new_lat, new_lon);
         double estimated_speed = dist_traveled / dt * 2.237e+12;
@@ -77,6 +77,6 @@ class GPS {
         // const auto s_used{gpsd_data->satellites_used};
         
         std::cout << std::setprecision(8) << std::fixed;  // set output to fixed floating point, 8 decimal precision
-        std::cout << lat << ", " << lon << ", " << speed << " +- " << eps << ", " << estimated_speed << std::endl;
+        std::cout << lat << ", " << lon << ", " << speed << " +- " << eps << ", " << dist_traveled << "," << dt << std::endl;
     }
 };
