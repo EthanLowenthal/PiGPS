@@ -18,7 +18,7 @@ double toRad(double degree) {
     return degree/180 * PI;
 }
 
-double calculateDistance(double lat1, double long1, double lat2, double long2) {
+double latLonDist(double lat1, double long1, double lat2, double long2) {
     double dist;
     dist = sin(toRad(lat1)) * sin(toRad(lat2)) + cos(toRad(lat1)) * cos(toRad(lat2)) * cos(toRad(long1 - long2));
     dist = acos(dist);
@@ -62,7 +62,7 @@ class GPS {
         double current_time = gpsd_data->fix.time.tv_nsec;
         double dt = last_update - current_time;
 
-        double dist_traveled = calculateDistance(lat, lon, new_lat, new_lon);
+        double dist_traveled = latLonDist(lat, lon, new_lat, new_lon);
         double estimated_speed = dist_traveled / dt * 2.237e+12;
 
         last_update = current_time;
