@@ -51,7 +51,7 @@ class FrameBuffer {
       *p   = 0xFF; //alpha
     }
 
-    void draw_rectangle(int x, int y, int width, int height, unsigned color) {
+    void draw_rectangle(int x, int y, unsigned width, unsigned height, unsigned color) {
       unsigned i, j;
       for (i=0;i<height;i++) {
         for (j=0;j<width;j++) {

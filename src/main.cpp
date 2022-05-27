@@ -13,13 +13,10 @@
 
 int main() {
   FrameBuffer fb {0};
-  // TODO doubble buffer with memcpy?
 
   auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_ARGB32, 
 		fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
   auto cr = Cairo::Context::create(surface);
-  cr->arc(surface->get_width() / 2.0, surface->get_height() / 2.0, 
-          surface->get_height() / 4.0, 0.0, 2.0 * 3.14159);
 
   clock_t current_ticks, delta_ticks;
   clock_t fps = 0;
@@ -59,14 +56,5 @@ int main() {
     cr->move_to(surface->get_width()-100, 30);
     cr->show_text(std::to_string(fps));  
     fb.flip();
-
-    // std::cout << "FPS: " << fps << std::endl;
   }
-
-
-    
-  // while (true) {
-  //   fb.fill(0xFFFFFF);
-  //   fb.draw_rectangle(100, 100, 70, 100, 0xFF0000);
-  // }
 }
