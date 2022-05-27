@@ -3,7 +3,7 @@
 CXX = g++
 
 TARGET = main
-OUTPUT = ./dist/main
+OUTPUT = main
 
 FLAGS = -std=c++17 -Wall
 
