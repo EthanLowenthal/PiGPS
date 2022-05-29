@@ -48,10 +48,12 @@ int main() {
     std::ostringstream str_out;
     str_out << std::setprecision(2);
 
-    str_out << "Latitude: " << std::to_string(gps.lat);
+    str_out << "Latitude: " << gps.lat;
     cr->show_text(str_out.str());  
+    str_out.clear()
+    
     cr->move_to(20, 100);
-    str_out << "Longitude: " << std::to_string(gps.lon);
+    str_out << "Longitude: " << gps.lon;
     cr->show_text(str_out.str());  
     cr->move_to(20, 170);
     cr->show_text("Speed: "+std::to_string(gps.speed)+" kts");  
