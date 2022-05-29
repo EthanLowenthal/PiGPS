@@ -45,6 +45,10 @@ class GPS {
         }
     }
     void update() {
+        if (gps_rec.stream(WATCH_ENABLE | WATCH_JSON) == nullptr) {
+            return;
+        }
+
         struct gps_data_t* gpsd_data;
 
         if (((gpsd_data = gps_rec.read()) == nullptr) || (gpsd_data->fix.mode < MODE_2D)) {

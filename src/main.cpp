@@ -1,4 +1,5 @@
 // g++ $(pkg-config --cflags --libs cairomm-1.0 libgps) -std=c++17 GPS.cpp FrameBuffer.cpp main.cpp -o main -lcairomm-1.0 -lgps
+// sudo apt-get install libcairomm-1.0-dev libgps-dev
 // https://techoverflow.net/2021/10/19/how-to-hide-all-boot-text-blinking-cursor-on-raspberry-pi/
 
 #include <iostream>
@@ -14,7 +15,8 @@
 int main() {
   FrameBuffer fb {0};
 
-  auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_ARGB32, 
+ // CAIRO_FORMAT_ARGB32
+  auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::CAIRO_FORMAT_RGB16_565, 
 		fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
   auto cr = Cairo::Context::create(surface);
 
