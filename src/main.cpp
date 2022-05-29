@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <sstream>
 
 #include <cairomm/context.h>
 #include <cairomm/surface.h>
@@ -43,11 +44,17 @@ int main() {
     cr->set_source_rgb(1, 1, 1);
 
     cr->move_to(20, 40);
-    cr->show_text("Latitude: "+std::to_string(gps.lat));  
+
+    std::ostringstream str_out;
+    str_out << std::setprecision(2);
+
+    str_out << "Latitude: " << std::to_string(gps.lat);
+    cr->show_text(str_out.str());  
     cr->move_to(20, 100);
-    cr->show_text("Longitude: "+std::to_string(gps.lon));  
+    str_out << "Longitude: " << std::to_string(gps.lon);
+    cr->show_text(str_out.str());  
     cr->move_to(20, 170);
-    cr->show_text("Speed: "+std::to_string(gps.speed));  
+    cr->show_text("Speed: "+std::to_string(gps.speed)+" kts");  
     cr->move_to(20, 240);
     cr->show_text("CMG: "+std::to_string(gps.heading));
 
