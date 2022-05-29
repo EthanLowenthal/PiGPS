@@ -22,8 +22,8 @@ void Display::put_text(double x, double y) {
 };
 
 void Display::update(GPS gps) {
-    ctx->identity_matrix();
-    
+    ctx->set_identity_matrix();
+
     ctx->rectangle(0,0,surface->get_width(),surface->get_height());
     ctx->set_source_rgb(0, 0, 0);
     ctx->fill();
