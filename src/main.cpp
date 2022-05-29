@@ -50,8 +50,8 @@ int main() {
 
     str_out << "Latitude: " << gps.lat;
     cr->show_text(str_out.str());  
-    str_out.clear()
-    
+    str_out.clear();
+
     cr->move_to(20, 100);
     str_out << "Longitude: " << gps.lon;
     cr->show_text(str_out.str());  
