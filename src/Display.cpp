@@ -67,9 +67,9 @@ class Display {
             ctx->move_to(20, 240);
             ctx->show_text("CMG: "+std::to_string(gps.heading));
 
-            delta_ticks = clock() - current_ticks; 
-            if(delta_ticks > 0)
-                fps = CLOCKS_PER_SEC / delta_ticks;
+            // delta_ticks = clock() - current_ticks; 
+            // if(delta_ticks > 0)
+            //     fps = CLOCKS_PER_SEC / delta_ticks;
 
             ctx->move_to(surface->get_width()-100, 30);
             ctx->show_text(std::to_string(fps));  
