@@ -16,7 +16,7 @@ int main() {
   FrameBuffer fb {0};
 
  // CAIRO_FORMAT_ARGB32
-  auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::CAIRO_FORMAT_RGB16_565, 
+  auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_RGB16_565, 
 		fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
   auto cr = Cairo::Context::create(surface);
 
