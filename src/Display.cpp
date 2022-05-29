@@ -50,11 +50,12 @@ void Display::update(GPS gps) {
     str_out << "CMG: " << gps.heading;
     put_text(20, line_height * 4);
 
-    ctx->move_to(surface->get_width()-100, 100);
+    ctx->set_identity_matrix();
     a += 0.005;
     ctx->rotate(a);
+    ctx->move_to(surface->get_width()-100, 100);
 
-    ctx->rectangle(surface->get_width()-100, 100, 80, 80);
+    // ctx->rectangle(surface->get_width()-100, 100, 80, 80);
 
 
     // cairo_line_to(cr, surface->get_width()-100, 100);
@@ -64,10 +65,10 @@ void Display::update(GPS gps) {
     // cairo_stroke_preserve(cr);
     // cairo_fill(cr);
 
-    str_out << "->";
-    ctx->show_text(str_out.str());  
-    str_out.str("");
-    str_out.clear();
+    // str_out << "->";
+    // ctx->show_text(str_out.str());  
+    // str_out.str("");
+    // str_out.clear();
     // put_text(surface->get_width()-100, line_height * 4);
 
     // delta_ticks = clock() - current_ticks; 
