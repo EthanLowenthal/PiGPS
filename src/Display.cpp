@@ -47,21 +47,23 @@ class Display {
                 Cairo::FontSlant::FONT_SLANT_NORMAL,
                 Cairo::FontWeight::FONT_WEIGHT_BOLD);
 
-            ctx->set_font_size(40);
+            double font_size = 40;
+            double line_height = font_size + 10;
+            ctx->set_font_size(font_size);
 
             ctx->set_source_rgb(1, 1, 1);
 
             str_out << "Latitude: " << gps.lat;
-            put_text(20, 40);
+            put_text(20, line_height);
 
             str_out << "Longitude: " << gps.lon;
-            put_text(20, 100);
+            put_text(20, line_height * 2);
 
             str_out << "Speed: " << gps.speed << " kts";
-            put_text(20, 170);
+            put_text(20, line_height * 3);
  
             str_out << "CMG: " << gps.heading;
-            put_text(20, 170);
+            put_text(20, line_height * 4);
 
             // delta_ticks = clock() - current_ticks; 
             // if(delta_ticks > 0)
