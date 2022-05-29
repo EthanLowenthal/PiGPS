@@ -5,11 +5,13 @@
 
 class Display {
     FrameBuffer fb {0};
+    
     Cairo::RefPtr<Cairo::Context> ctx;
+    Cairo::RefPtr<Cairo::ImageSurface> surface;
 
     public:
         Display() {
-            auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_RGB16_565, 
+            surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_RGB16_565, 
                 fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
 
             ctx = Cairo::Context::create(surface);
