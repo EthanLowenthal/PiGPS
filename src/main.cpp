@@ -15,7 +15,7 @@
 int main() {
   FrameBuffer fb {0};
 
- // CAIRO_FORMAT_ARGB32
+ // FORMAT_ARGB32
   auto surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_RGB16_565, 
 		fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
   auto cr = Cairo::Context::create(surface);
@@ -40,16 +40,16 @@ int main() {
 
     cr->set_font_size(40);
 
-    cr->set_source_rgb(1, 0, 1);
+    cr->set_source_rgb(1, 1, 1);
 
-    cr->move_to(20, 30);
+    cr->move_to(20, 40);
     cr->show_text("Latitude: "+std::to_string(gps.lat));  
     cr->move_to(20, 100);
     cr->show_text("Longitude: "+std::to_string(gps.lon));  
     cr->move_to(20, 170);
     cr->show_text("Speed: "+std::to_string(gps.speed));  
     cr->move_to(20, 240);
-    cr->show_text("CMG: "+std::to_string(gps.heading));  
+    cr->show_text("CMG: "+std::to_string(gps.heading));
 
     delta_ticks = clock() - current_ticks; 
     if(delta_ticks > 0)
