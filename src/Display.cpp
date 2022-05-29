@@ -51,8 +51,19 @@ void Display::update(GPS gps) {
     put_text(20, line_height * 4);
 
     ctx->move_to(surface->get_width()-100, 100);
-    a += 0.001;
+    a += 0.005;
     ctx->rotate(a);
+
+    ctx->rectangle(surface->get_width()-100, 100, 80, 80);
+
+
+    // cairo_line_to(cr, surface->get_width()-100, 100);
+    // cairo_line_to(cr, 350, 160);
+    // cairo_close_path(cr);
+
+    // cairo_stroke_preserve(cr);
+    // cairo_fill(cr);
+
     str_out << "->";
     ctx->show_text(str_out.str());  
     str_out.str("");
