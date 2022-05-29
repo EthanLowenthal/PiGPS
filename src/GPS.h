@@ -20,8 +20,9 @@ class GPS {
         double speed {};
         double heading {};
         double last_update {};
-        
+
         void update();
+        void GPS();
 };
 
 

@@ -55,7 +55,7 @@ class Display {
             ctx->move_to(20, 40);
             
 
-            this << "Latitude: " << gps.lat << End;
+            &this << "Latitude: " << gps.lat << std::endl;
             // ctx->show_text(str_out.str());  
             // str_out.str("");
             // str_out.clear();

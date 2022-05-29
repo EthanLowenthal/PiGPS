@@ -19,7 +19,7 @@ double latLonDist(double lat1, double long1, double lat2, double long2) {
     return dist;
 }
 
-GPS::update() {
+void GPS::update() {
     if (gps_rec.stream(WATCH_ENABLE | WATCH_JSON) == nullptr) {
         return;
     }
