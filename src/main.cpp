@@ -6,7 +6,7 @@
 #include <string>
 #include <ctime>
 
-#include <cairomwm/context.h>
+#include <cairomm/context.h>
 #include <cairomm/surface.h>
 
 #include "FrameBuffer.cpp"
