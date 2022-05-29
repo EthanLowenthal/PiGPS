@@ -51,7 +51,8 @@ void Display::update(GPS gps) {
     put_text(20, line_height * 4);
 
     ctx->move_to(surface->get_width()-100, 100);
-    ctx->rotate(45);
+    a += 0.001;
+    ctx->rotate(a);
     str_out << "->";
     ctx->show_text(str_out.str());  
     str_out.str("");

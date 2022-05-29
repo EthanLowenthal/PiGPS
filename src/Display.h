@@ -16,6 +16,8 @@
 class Display {
     FrameBuffer fb {0};
 
+    double a {};
+
     Cairo::RefPtr<Cairo::Context> ctx;
     Cairo::RefPtr<Cairo::ImageSurface> surface;
 
