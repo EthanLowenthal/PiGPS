@@ -7,6 +7,7 @@
 #include <cairomm/surface.h>
 
 #include "FrameBuffer.cpp"
+#include "Gps.cpp"
 
 class Display {
     FrameBuffer fb {0};
@@ -71,8 +72,9 @@ class Display {
             // if(delta_ticks > 0)
             //     fps = CLOCKS_PER_SEC / delta_ticks;
 
-            ctx->move_to(surface->get_width()-100, 30);
-            ctx->show_text(std::to_string(fps));  
+            // ctx->move_to(surface->get_width()-100, 30);
+            // ctx->show_text(std::to_string(fps));  
+            
             fb.flip();
         }
 };
