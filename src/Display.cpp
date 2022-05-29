@@ -1,3 +1,6 @@
+#include <cairomm/context.h>
+#include <cairomm/surface.h>
+
 #include "FrameBuffer.cpp"
 
 class Display {
@@ -13,9 +16,9 @@ class Display {
         };
 
         void update() {
-            cr->rectangle(0,0,surface->get_width(),surface->get_height());
-            cr->set_source_rgb(0, 1, 0);
-            cr->fill();
+            ctx->rectangle(0,0,surface->get_width(),surface->get_height());
+            ctx->set_source_rgb(0, 1, 0);
+            ctx->fill();
 
             fb.flip();
         }
