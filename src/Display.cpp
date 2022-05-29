@@ -32,11 +32,11 @@ class Display {
         };
 
         template<typename T>
-        Display& operator<<(Display& d, const T& obj)
+        Display& operator<<(const T& obj)
         {
             str_out << obj;
             std::cout << obj << std::endl;
-            return d;
+            return *this;
         }
 
         void update(GPS gps) {
@@ -55,7 +55,7 @@ class Display {
             ctx->move_to(20, 40);
             
 
-            &this << "Latitude: " << gps.lat << std::endl;
+            this << "Latitude: " << gps.lat << std::endl;
             // ctx->show_text(str_out.str());  
             // str_out.str("");
             // str_out.clear();

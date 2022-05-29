@@ -22,7 +22,7 @@ class GPS {
         double last_update {};
 
         void update();
-        void GPS();
+        GPS();
 };
 
 
