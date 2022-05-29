@@ -23,7 +23,7 @@ int main() {
   Display display {};
 
   while (true) {
-    current_ticks = clock();
+    // current_ticks = clock();
     
     gps.update();
     display.update(gps);
