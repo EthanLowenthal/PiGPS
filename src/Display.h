@@ -29,5 +29,6 @@ class Display {
         Display();
         void put_text(double x, double y);
         void update(GPS gps);
-}
+};
+
 #endif
