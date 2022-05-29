@@ -13,11 +13,6 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-std::map<int, Cairo::Format> bpp_to_format {
-    {32, Cairo::Format::FORMAT_ARGB32},
-    {16, Cairo::Format::FORMAT_RGB16_565}
-};
-
 class Display {
     FrameBuffer fb {0};
 

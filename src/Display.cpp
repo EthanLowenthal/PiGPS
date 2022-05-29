@@ -1,5 +1,9 @@
 #include "Display.h"
 
+std::map<int, Cairo::Format> bpp_to_format {
+    {32, Cairo::Format::FORMAT_ARGB32},
+    {16, Cairo::Format::FORMAT_RGB16_565}
+};
 
 Display::Display() {
     surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, bpp_to_format[fb.fb_info.var.bits_per_pixel], 
