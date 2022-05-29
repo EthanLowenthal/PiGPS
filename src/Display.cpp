@@ -7,7 +7,7 @@
 #include <cairomm/surface.h>
 
 #include "FrameBuffer.cpp"
-#include "GPS.cpp"
+#include "GPS"
 
 class Display {
     FrameBuffer fb {0};
