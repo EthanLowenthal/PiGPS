@@ -2,12 +2,18 @@
 #include <string>
 #include <ctime>
 #include <sstream>
+#include <map>
 
 #include <cairomm/context.h>
 #include <cairomm/surface.h>
 
 #include "FrameBuffer.cpp"
 #include "GPS.h"
+
+std::map<int, Cairo::Format> bpp_to_format {
+    {32, Cairo::Format::FORMAT_ARGB32},
+    {16, Cairo::Format::FORMAT_RGB16_565}
+}
 
 class Display {
     FrameBuffer fb {0};
@@ -23,7 +29,7 @@ class Display {
 
     public:
         Display() {
-            surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, Cairo::Format::FORMAT_RGB16_565, 
+            surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, bpp_to_format[fb.fb_info.var.bits_per_pixel], 
                 fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
 
             ctx = Cairo::Context::create(surface);
@@ -64,6 +70,14 @@ class Display {
  
             str_out << "CMG: " << gps.heading;
             put_text(20, line_height * 4);
+
+            ctx->move_to(surface->get_width()-100, 100);
+            ctx->rotate(45);
+            str_out << "->";
+            ctx->show_text(str_out.str());  
+            str_out.str("");
+            str_out.clear();
+            // put_text(surface->get_width()-100, line_height * 4);
 
             // delta_ticks = clock() - current_ticks; 
             // if(delta_ticks > 0)
