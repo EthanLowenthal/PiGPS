@@ -2,10 +2,10 @@
 // sudo apt-get install libcairomm-1.0-dev libgps-dev
 // https://techoverflow.net/2021/10/19/how-to-hide-all-boot-text-blinking-cursor-on-raspberry-pi/
 
-#include <cairomm/context.h>
-#include <cairomm/surface.h>
+// #include <cairomm/context.h>
+// #include <cairomm/surface.h>
 
-#include "Display.cpp"
+#include "Display.h"
 #include "GPS.h"
 
 int main() {
