@@ -31,12 +31,11 @@ class Display {
             str_out << std::setprecision(2);
         };
 
-        template<typename T>
-        Display& operator<<(Display& d, const T& obj)
-        {
-            d.str_out << obj;
-            std::cout << obj << std::endl;
-            return d;
+        void put_text(double x, double y) {
+            ctx->move_to(x, y);
+            ctx->show_text(str_out.str());  
+            str_out.str("");
+            str_out.clear();
         }
 
         void update(GPS gps) {
@@ -52,21 +51,17 @@ class Display {
 
             ctx->set_source_rgb(1, 1, 1);
 
-            ctx->move_to(20, 40);
-            
+            str_out << "Latitude: " << gps.lat;
+            put_text(20, 40);
 
-            this << "Latitude: " << gps.lat << std::endl;
-            // ctx->show_text(str_out.str());  
-            // str_out.str("");
-            // str_out.clear();
-
-            ctx->move_to(20, 100);
             str_out << "Longitude: " << gps.lon;
-            ctx->show_text(str_out.str());  
-            ctx->move_to(20, 170);
-            ctx->show_text("Speed: "+std::to_string(gps.speed)+" kts");  
-            ctx->move_to(20, 240);
-            ctx->show_text("CMG: "+std::to_string(gps.heading));
+            put_text(20, 100);
+
+            str_out << "Speed: " << gps.speed << " kts";
+            put_text(20, 170);
+ 
+            str_out << "CMG: " << gps.heading;
+            put_text(20, 170);
 
             // delta_ticks = clock() - current_ticks; 
             // if(delta_ticks > 0)
