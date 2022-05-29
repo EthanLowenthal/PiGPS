@@ -65,10 +65,10 @@ void Display::update(GPS gps) {
     // cairo_stroke_preserve(cr);
     // cairo_fill(cr);
 
-    // str_out << "->";
-    // ctx->show_text(str_out.str());  
-    // str_out.str("");
-    // str_out.clear();
+    str_out << "->";
+    ctx->show_text(str_out.str());  
+    str_out.str("");
+    str_out.clear();
     // put_text(surface->get_width()-100, line_height * 4);
 
     // delta_ticks = clock() - current_ticks; 
