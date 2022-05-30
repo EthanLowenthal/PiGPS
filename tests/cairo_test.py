@@ -55,6 +55,7 @@ class Display:
         compass_rad = 150
         compass_pos = (400, 300)
 
+        self.ctx.identity_matrix()
         self.ctx.new_sub_path()
         self.ctx.translate(compass_pos[0],compass_pos[1])
         self.ctx.rotate(deg_rad(-90))
@@ -65,7 +66,7 @@ class Display:
         self.ctx.translate(compass_pos[0],compass_pos[1])
         self.ctx.move_to(0,0)
 
-        current_heading = self.current_heading
+        current_heading = int(self.current_heading)
         self.current_heading += 0.1
         self.current_heading %= 360
 
@@ -84,7 +85,6 @@ class Display:
                 continue
             
             deg += current_heading
-
             
             self.ctx.identity_matrix()
             self.ctx.translate(compass_pos[0],compass_pos[1])
