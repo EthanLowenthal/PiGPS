@@ -1,6 +1,7 @@
 import cairo
 import math
 from framebuffer import FrameBuffer
+import time
 
 def deg_rad(deg):
     return deg / 180 * math.pi
@@ -28,6 +29,8 @@ class Display:
         self.ctx = cairo.Context(self.surface)
 
         self.current_heading = 0
+
+        self.last_update = time.time_ns()
         
     def flip(self):
         self.framebuffer.flip(self.surface)
@@ -105,6 +108,13 @@ class Display:
                 self.ctx.rel_move_to(-extents.width/2,-extents.height/2)
                 self.ctx.show_text(label)
 
+    def fps(self):
+        now = time.time_ns()
+        label = str(now - self.last_update) + ' ns'
+        self.ctx.rel_move_to(20,20)
+        self.ctx.show_text(label)
+        self.ctx.show_text(label)
+        self.last_update = now
 
 display = Display()
 
@@ -112,6 +122,7 @@ display = Display()
 while True:
     display.clear()
     display.draw_compass()
+    display.fps()
     display.flip()
 
 # display.surface.write_to_png("surface.png")
