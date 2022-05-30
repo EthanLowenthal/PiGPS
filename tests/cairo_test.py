@@ -109,8 +109,9 @@ class Display:
                 self.ctx.show_text(label)
 
     def fps(self):
+        self.ctx.identity_matrix()
         now = time.time_ns()
-        label = str(now - self.last_update) + ' ns'
+        label = str(1e+9 / (now - self.last_update)) + ' fps'
         self.ctx.rel_move_to(20,20)
         self.ctx.show_text(label)
         self.ctx.show_text(label)
