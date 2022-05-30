@@ -74,7 +74,7 @@ class Display:
         self.current_heading %= 360
 
         self.ctx.set_font_size(30)
-        label = f'{current_heading}˚'
+        label = f'{int(current_heading)}˚'
         extents = self.ctx.text_extents(label)
         self.ctx.rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35)
         self.ctx.show_text(label)
