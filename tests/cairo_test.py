@@ -86,9 +86,11 @@ class Display:
 
         self.ctx.set_font_size(20)
 
-        for true_deg in range(round_toi(-compass_arc, 5), round_toi(+compass_arc, 5), 5):
+        off = current_heading % 5
+        for true_deg in range(int(-compass_arc - off), int(compass_arc - off), 5):
             deg = true_deg + current_heading
 
+            # print(deg, true_deg, off)
             self.ctx.identity_matrix()
             self.ctx.translate(compass_pos[0],compass_pos[1])
             self.ctx.rotate(deg_rad(-90))
