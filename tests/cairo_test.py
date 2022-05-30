@@ -69,7 +69,7 @@ class Display:
         self.ctx.translate(compass_pos[0],compass_pos[1])
         self.ctx.move_to(0,0)
 
-        current_heading = self.current_heading
+        current_heading = int(self.current_heading)
         self.current_heading += 0.1
         self.current_heading %= 360
 
