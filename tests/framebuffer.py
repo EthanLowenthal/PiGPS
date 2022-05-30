@@ -73,18 +73,33 @@ class VarScreenInfo(ctypes.Structure):
 
 class FrameBuffer:
     def __init__(self):
-        self.fd = FbFid(os.open('/dev/fb0', os.O_WRONLY))
+        self.virtual = False
 
-        self.file = os.fdopen(self.fd, "wb")
+        try:
+            self.fd = FbFid(os.open('/dev/fb0', os.O_WRONLY))
+        except FileNotFoundError:
+            self.virtual = True
 
         self.var_info = VarScreenInfo()
-        ioctl(self.fd, FBIOGET_VSCREENINFO, self.var_info)
-
         self.fix_info = FixScreenInfo()
-        ioctl(self.fd, FBIOGET_FSCREENINFO, self.fix_info)
+
+        if self.virtual:
+            self.var_info.bits_per_pixel = 16
+            self.var_info.xres_virtual = 1920
+            self.var_info.yres_virtual = 1080
+
+        else:
+            self.file = os.fdopen(self.fd, "wb")
+
+            ioctl(self.fd, FBIOGET_VSCREENINFO, self.var_info)
+
+            ioctl(self.fd, FBIOGET_FSCREENINFO, self.fix_info)
 
     def flip(self, surface):
-        self.file.seek(0)
-        self.file.write(surface.get_data())
+        if self.virtual:
+            surface.write_to_png("surface.png")
+        else:
+            self.file.seek(0)
+            self.file.write(surface.get_data())
     
 

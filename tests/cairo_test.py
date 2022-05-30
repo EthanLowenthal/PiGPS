@@ -51,7 +51,7 @@ class Display:
         return 0
 
     def draw_compass(self):
-        compass_arc = 360 / 8
+        compass_arc = 360 / 10
         compass_rad = 150
         compass_pos = (400, 300)
 
@@ -78,13 +78,8 @@ class Display:
 
         self.ctx.set_font_size(20)
 
-        for true_deg in range(360):
-            deg = true_deg
-
-            if true_deg > compass_arc and compass_arc < 360 - true_deg:
-                continue
-            
-            deg += current_heading
+        for true_deg in range(int(-compass_arc), int(+compass_arc)):
+            deg = true_deg + current_heading
             
             self.ctx.identity_matrix()
             self.ctx.translate(compass_pos[0],compass_pos[1])
