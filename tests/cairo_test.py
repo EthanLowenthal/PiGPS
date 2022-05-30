@@ -54,7 +54,7 @@ class Display:
         return 0
 
     def draw_compass(self):
-        compass_arc = 360 / 10
+        compass_arc = 360 / 8
         compass_rad = 150
         compass_pos = (400, 300)
 
@@ -74,7 +74,7 @@ class Display:
         self.current_heading %= 360
 
         self.ctx.set_font_size(30)
-        label = f'{int(current_heading)}˚'
+        label = f'{current_heading}˚'
         extents = self.ctx.text_extents(label)
         self.ctx.rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35)
         self.ctx.show_text(label)
