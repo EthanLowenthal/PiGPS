@@ -9,11 +9,12 @@ class FrameBuffer:
         self.file = open('/dev/fb0', 'wb')
     
     def flip(self, surface):
+        self.file.seek(0)
         self.file.write(surface.get_data())
 
 class Display:
     def __init__(self):
-        self.surface = cairo.ImageSurface(cairo.Format.RGB16_565, 800, 600)
+        self.surface = cairo.ImageSurface(cairo.Format.RGB16_565, 1920, 1080)
 
         # print(self.surface.get_data().tobytes())
         self.ctx = cairo.Context(self.surface)
