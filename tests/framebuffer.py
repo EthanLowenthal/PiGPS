@@ -83,8 +83,6 @@ class FrameBuffer:
         self.fix_info = FixScreenInfo()
         ioctl(self.fd, FBIOGET_FSCREENINFO, self.fix_info)
 
-        print(self.var_info.bits_per_pixel)
-
     def flip(self, surface):
         self.file.seek(0)
         self.file.write(surface.get_data())

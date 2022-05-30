@@ -1,20 +1,36 @@
 import cairo
 import math
+from framebuffer import FrameBuffer
 
 def deg_rad(deg):
     return deg / 180 * math.pi
 
 
 
-
+img_formats = {
+    16: cairo.Format.RGB16_565,
+    32: cairo.Format.ARGB32
+}
 
 class Display:
     def __init__(self):
-        self.surface = cairo.ImageSurface(cairo.Format.RGB16_565, 1920, 1080)
 
-        # print(self.surface.get_data().tobytes())
+        self.framebuffer = FrameBuffer()
+
+        img_format = img_formats[self.framebuffer.var_info.bits_per_pixel]
+
+        self.surface = cairo.ImageSurface(
+            img_format,
+            self.framebuffer.var_info.xres_virtual,
+            self.framebuffer.var_info.yres_virtual,
+        )
+
         self.ctx = cairo.Context(self.surface)
+
+        self.current_heading = 0
         
+    def flip(self):
+        self.framebuffer.flip(self.surface)
 
     def clear(self):
         self.ctx.set_source_rgba(0,0,0,1)
@@ -49,7 +65,9 @@ class Display:
         self.ctx.translate(compass_pos[0],compass_pos[1])
         self.ctx.move_to(0,0)
 
-        current_heading = 11
+        current_heading = self.current_heading
+        self.current_heading += 0.1
+        self.current_heading %= 360
 
         self.ctx.set_font_size(30)
         label = f'{current_heading}˚'
@@ -95,11 +113,10 @@ class Display:
 
 display = Display()
 
-framebuffer = FrameBuffer()
-display.clear()
-display.draw_compass()
 
 while True:
-    framebuffer.flip(display.surface)
+    display.clear()
+    display.draw_compass()
+    display.flip()
 
 # display.surface.write_to_png("surface.png")
