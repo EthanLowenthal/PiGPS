@@ -69,7 +69,7 @@ class Display:
         self.ctx.translate(compass_pos[0],compass_pos[1])
         self.ctx.move_to(0,0)
 
-        current_heading = int(self.current_heading)
+        current_heading = self.current_heading
         self.current_heading += 0.1
         self.current_heading %= 360
 
@@ -102,7 +102,7 @@ class Display:
                 self.ctx.rel_move_to(15,0)
                 self.ctx.rotate(math.pi/2)
 
-                label = str(deg % 360) 
+                label = str(int(deg % 360))
 
                 extents = self.ctx.text_extents(label)
                 self.ctx.rel_move_to(-extents.width/2,-extents.height/2)
@@ -118,7 +118,7 @@ class Display:
         label = f'{fps:.2f} fps'
         self.ctx.move_to(20,20)
         self.ctx.show_text(label)
-        
+
         self.last_update = now
 
 display = Display()
