@@ -4,13 +4,9 @@ import math
 def deg_rad(deg):
     return deg / 180 * math.pi
 
-class FrameBuffer:
-    def __init__(self):
-        self.file = open('/dev/fb0', 'wb')
-    
-    def flip(self, surface):
-        self.file.seek(0)
-        self.file.write(surface.get_data())
+
+
+
 
 class Display:
     def __init__(self):
