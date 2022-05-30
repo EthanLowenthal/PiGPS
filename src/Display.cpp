@@ -51,9 +51,9 @@ void Display::update(GPS gps) {
     put_text(20, line_height * 4);
 
     ctx->set_identity_matrix();
+    ctx->move_to(surface->get_width()-100, 100);
     a += 0.005;
     ctx->rotate(a);
-    ctx->move_to(surface->get_width()-100, 100);
 
     // ctx->rectangle(surface->get_width()-100, 100, 80, 80);
 
