@@ -75,7 +75,7 @@ class FrameBuffer:
     def __init__(self):
         self.fd = FbFid(os.open('/dev/fb0', os.O_WRONLY))
 
-        self.file = os.fdopen(self., "wb")
+        self.file = os.fdopen(self.fd, "wb")
 
         self.var_info = VarScreenInfo()
         ioctl(self.fd, FBIOGET_VSCREENINFO, self.var_info)
