@@ -63,7 +63,7 @@ class Display:
         self.ctx.translate(compass_pos[0],compass_pos[1])
         self.ctx.rotate(deg_rad(-90))
         self.ctx.arc_negative(0,0,compass_rad,deg_rad(compass_arc),deg_rad(-compass_arc))
-        self.ctx.stroke()
+        # self.ctx.stroke()
 
         self.ctx.identity_matrix()
         self.ctx.translate(compass_pos[0],compass_pos[1])
@@ -81,7 +81,7 @@ class Display:
 
         self.ctx.set_font_size(20)
 
-        for true_deg in range(int(-compass_arc), int(+compass_arc)):
+        for true_deg in range(int(-compass_arc), int(+compass_arc), 5):
             deg = true_deg + current_heading
             
             self.ctx.identity_matrix()
@@ -95,7 +95,6 @@ class Display:
             self.ctx.rotate(math.pi/2)
             line_length = self.get_compass_line_length(deg)
             self.ctx.rel_line_to(0, line_length)
-            self.ctx.stroke_preserve()
 
             if deg % 20 == 0:
                 self.ctx.restore()
@@ -107,6 +106,8 @@ class Display:
                 extents = self.ctx.text_extents(label)
                 self.ctx.rel_move_to(-extents.width/2,-extents.height/2)
                 self.ctx.show_text(label)
+
+        self.ctx.stroke()
 
     def fps(self):
         now = time.time_ns()
