@@ -7,6 +7,11 @@ def deg_rad(deg):
     return deg / 180 * math.pi
 
 
+def round_to(num, base):
+    return base * round(num/base)
+
+def round_toi(num, base):
+    return int(base * round(num/base))
 
 img_formats = {
     16: cairo.Format.RGB16_565,
@@ -81,9 +86,9 @@ class Display:
 
         self.ctx.set_font_size(20)
 
-        for true_deg in range(int(-compass_arc), int(+compass_arc), 5):
+        for true_deg in range(round_toi(-compass_arc, 5), round_toi(+compass_arc, 5), 5):
             deg = true_deg + current_heading
-            
+
             self.ctx.identity_matrix()
             self.ctx.translate(compass_pos[0],compass_pos[1])
             self.ctx.rotate(deg_rad(-90))
