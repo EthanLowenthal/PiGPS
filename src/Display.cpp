@@ -30,7 +30,7 @@ const std::string currentDateTime() {
     tstruct = *localtime(&now);
     // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
     // for more information about date/time format
-    strftime(buf, sizeof(buf), "%a, %b %e, %H:%M:%S", &tstruct);
+    strftime(buf, sizeof(buf), "%a, %b%e, %l:%M:%S %p", &tstruct);
 
     return buf;
 }
@@ -215,7 +215,7 @@ void Display::start_screen(GPS gps) {
 
     ctx->move_to(cell_width * 2.5, text_height);
 
-    label = "+0:03";
+    label = "+0:03\n1m";
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);
