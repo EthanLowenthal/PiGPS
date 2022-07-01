@@ -72,8 +72,8 @@ void Display::update(GPS gps) {
     str_out.str("");
     str_out.clear();
 
-    // draw_compass(a * 10);
-    draw_compass(0);
+    draw_compass(a * 10);
+    // draw_compass(0);
 
     // put_text(surface->get_width()-100, line_height * 4);
 
