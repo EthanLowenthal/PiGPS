@@ -19,6 +19,9 @@ class Display {
 
     double a {};
 
+    int width {};
+    int height {};
+
     Cairo::RefPtr<Cairo::Context> ctx;
     Cairo::RefPtr<Cairo::ImageSurface> surface;
 
@@ -28,6 +31,7 @@ class Display {
         void put_text(double x, double y);
         void update(GPS gps);
         void draw_compass(double value);
+        void start_screen(GPS gps);
 };
 
 #endif
