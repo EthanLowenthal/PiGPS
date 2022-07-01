@@ -169,27 +169,31 @@ void Display::start_screen(GPS gps) {
     ctx->fill();
 
 
+    double pin_pos = width * 0.15;
+    double boat_pos = width * 0.85;
+    double line_height = divider_height * 0.5;
     double buoy_size = 50;
-    ctx->move_to(width * 0.25, divider_height * 0.5);
+
+    ctx->move_to(pin_pos, line_height);
     ctx->arc(
-        width * 0.25, 
-        divider_height * 0.5,
+        pin_pos, 
+        line_height,
         buoy_size,
         0,
         2 * M_PI
     );
 
     ctx->rectangle(
-        width * 0.75 - buoy_size/2,
-        divider_height * 0.5 - buoy_size/2,
-        width * 0.75 + buoy_size/2, 
-        divider_height * 0.5 + buoy_size/2
+        boat_pos - buoy_size/2,
+        line_height - buoy_size/2,
+        buoy_size/2, 
+        buoy_size/2
     );
     ctx->fill();
 
 
-    ctx->move_to(width * 0.25, divider_height * 0.5);
-    ctx->line_to(width * 0.75, divider_height * 0.5);
+    ctx->move_to(pin_pos, line_height);
+    ctx->line_to(boat_pos, line_height);
     std::vector<double> dashes = {14.0, 6.0};
 
     ctx->set_dash(dashes, 1);
