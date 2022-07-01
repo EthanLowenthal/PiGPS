@@ -97,7 +97,7 @@ double deg_rad(double deg) {
 }
 double set_precision(double val, int precision) {
     int v = pow(10, precision);
-    return (double)((int) val + (int) (val * v) % v / v);
+    return (double)(((double)(int) val) + ((double)((int) (val * v) % v)) / v);
 }
 void Display::draw_compass(double value) {
         ctx->set_identity_matrix();
