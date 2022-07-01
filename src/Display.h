@@ -5,6 +5,9 @@
 #include <sstream>
 #include <map>
 
+#include <stdio.h>
+#include <time.h>
+
 #include <cairomm/context.h>
 #include <cairomm/surface.h>
 
@@ -32,6 +35,7 @@ class Display {
         void update(GPS gps);
         void draw_compass(double value);
         void start_screen(GPS gps);
+        void top_bar(GPS gps);
 };
 
 #endif

@@ -23,6 +23,18 @@ std::string to_string_with_precision(const T a_value, const int n = 6) {
     return out.str();
 }
 
+const std::string currentDateTime() {
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
+    // for more information about date/time format
+    strftime(buf, sizeof(buf), "%a, %b %e, %H:%M:%S", &tstruct);
+
+    return buf;
+}
+
 Display::Display() {
     surface = Cairo::ImageSurface::create( (unsigned char*) fb.buff, bpp_to_format[fb.fb_info.var.bits_per_pixel], 
         fb.fb_info.var.xres, fb.fb_info.var.yres, fb.fb_info.fix.line_length); 
@@ -60,6 +72,7 @@ void Display::update(GPS gps) {
     ctx->set_source_rgb(1, 1, 1);
 
     start_screen(gps);
+    top_bar(gps);
 
     // str_out << "Latitude: " << gps.lat;
     // put_text(20, line_height);
@@ -133,6 +146,31 @@ void Display::draw_compass(double value) {
         }            
 }
 
+void Display::top_bar(GPS gps) {
+    double divider_height = height * 0.1;
+
+    ctx->move_to(0,divider_height);
+    ctx->line_to(width,divider_height);
+
+    int divisions = 3;
+    double cell_width = (double)width/divisions;
+
+    for (int i=1;i<divisions;i++) {
+        ctx->move_to(i * cell_width,divider_height);
+        ctx->line_to(i * cell_width,0);
+    }
+
+    double text_height = divider_height * 0.5;
+
+    ctx->move_to(cell_width * 2.5, text_height);
+
+    std::string label = currentDateTime();
+    Cairo::TextExtents extents;
+    ctx->get_text_extents(label, extents);
+    ctx->rel_move_to(-extents.width/2,extents.height/2);
+    ctx->text_path(label);
+}
+
 void Display::start_screen(GPS gps) {
 
     // BOTTOM INFO
@@ -164,10 +202,24 @@ void Display::start_screen(GPS gps) {
 
     ctx->move_to(cell_width * 1.5, text_height);
 
-    label = "time here";
+    label = "5:00";
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);
+
+
+    ctx->fill();
+    ctx->set_source_rgb(0, 1, 0);
+
+    ctx->move_to(cell_width * 3.5, text_height);
+
+    label = "+0:03";
+    ctx->get_text_extents(label, extents);
+    ctx->rel_move_to(-extents.width/2,extents.height/2);
+    ctx->text_path(label);
+
+    ctx->fill();
+    ctx->set_source_rgb(1, 1, 1);
 
 
     // START LINE DISPLAY
@@ -181,7 +233,7 @@ void Display::start_screen(GPS gps) {
     ctx->arc(
         pin_pos, 
         line_height,
-        buoy_size,
+        buoy_size/2,
         0,
         2 * M_PI
     );
@@ -202,6 +254,5 @@ void Display::start_screen(GPS gps) {
     ctx->set_dash(dashes, 1);
     ctx->stroke();
     ctx->unset_dash();
-
 
 }
