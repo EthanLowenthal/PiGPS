@@ -107,14 +107,15 @@ void Display::draw_compass(double value) {
 
         ctx->set_font_size(30);
         std::string label = std::to_string(value);
-        auto extents = ctx->get_text_extents(label);
+        Cairo::TextExtents extents;
+        ctx->get_text_extents(label, extents);
         ctx->rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35);
         ctx->text_path(label);
         ctx->fill();
 
         ctx->set_font_size(20);
 
-        double offset = value % 5;
+        double offset = (int)value % 5;
         ctx->rotate(deg_rad(-offset - 45));
         for (double true_deg = -compass_arc - offset; true_deg < compass_arc - offset + 5; true_deg += 5) {
             double deg = true_deg + value;
@@ -127,12 +128,12 @@ void Display::draw_compass(double value) {
             ctx->rel_line_to(0, line_length);
             ctx->stroke();
 
-            if (deg % 20 == 0) {
+            if ((int)deg % 20 == 0) {
                 ctx->rel_move_to(0,-15);
 
-                std::string label = std::to_string((int)(deg % 360));
+                std::string label = std::to_string((int)deg % 360);
 
-                extents = ctx->get_text_extents(label)
+                ctx->get_text_extents(label, extents)
                 ctx->rel_move_to(-extents.width/2,-extents.height/2)
                 ctx->text_path(label)
             }
