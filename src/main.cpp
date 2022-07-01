@@ -29,5 +29,6 @@ int main() {
     
     gps.update();
     display.update(gps);
+    display.draw_compass(0);
   }
 }

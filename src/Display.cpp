@@ -81,3 +81,58 @@ void Display::update(GPS gps) {
     fb.flip();
 };
 
+int get_compass_line_length(double deg) {
+    if (deg % 45 == 0) return 20;
+    if (deg % 10 == 0) return 15;
+    if (deg % 5 == 0) return 10;
+    return 0;
+}
+
+void Display::draw_compass(double value) {
+        double compass_arc = 360 / 8;
+        double compass_rad = 150;
+        double compass_pos = (surface->get_width()/2, 400);
+
+        ctx->new_path();
+        ctx->translate(compass_pos[0],compass_pos[1]);
+        ctx->arc_negative(0,0,compass_rad,deg_rad(compass_arc-90),deg_rad(-compass_arc-90));
+        strokes.append(ctx->copy_path());
+        ctx->new_path();
+
+        ctx->move_to(0,0);
+
+        ctx->set_font_size(30);
+        std::string label = std::to_string(value);
+        auto extents = ctx->text_extents(label);
+        ctx->rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35);
+        ctx->text_path(label);
+        ctx->fill();
+
+        ctx->set_font_size(20);
+
+        double offset = value % 5;
+        ctx->rotate(deg_rad(-offset - 45));
+        for (double true_deg = -compass_arc - offset; true_deg < compass_arc - offset + 5, true_deg += 5) {
+            double deg = true_deg + value
+
+            ctx->move_to(0,0);
+            ctx->rotate(deg_rad(5));
+            ctx->rel_move_to(0,-compass_rad-30);
+
+            int line_length = get_compass_line_length(deg);
+            ctx->rel_line_to(0, line_length);
+            ctx->stroke();
+
+            if (deg % 20 == 0) {
+                ctx->rel_move_to(0,-15)
+
+                std::string label = std::to_string((int)(deg % 360));
+
+                extents = ctx->text_extents(label)
+                ctx->rel_move_to(-extents.width/2,-extents.height/2)
+                ctx->text_path(label)
+            }
+                
+            ctx->fill();
+        }            
+}
