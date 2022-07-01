@@ -257,8 +257,10 @@ void Display::start_screen(GPS gps, Data data) {
         2 * M_PI
     );
 
+    double blink = system_clock::now().time_since_epoch() * 0.001;
+
     if (data.pin_lat == 0 || data.pin_lon == 0) {
-        double b = sin(time(0) * 0.001);
+        double b = sin(blink);
         ctx->set_source_rgb(b, b, b);
     } else {
         ctx->set_source_rgb(1, 1, 1);
@@ -272,7 +274,16 @@ void Display::start_screen(GPS gps, Data data) {
         buoy_size, 
         buoy_size
     );
+
+    if (data.boat_lat == 0 || data.boat_lon == 0) {
+        double b = sin(blink);
+        ctx->set_source_rgb(b, b, b);
+    } else {
+        ctx->set_source_rgb(1, 1, 1);
+    }
     ctx->fill();
+    
+    ctx->set_source_rgb(1, 1, 1);
 
 
     ctx->move_to(pin_pos, line_height);
