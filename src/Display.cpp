@@ -95,7 +95,10 @@ int get_compass_line_length(int deg) {
 double deg_rad(double deg) {
     return deg / 180 * PI;
 }
-
+double set_precision(double val, int precision) {
+    int v = pow(10, precision);
+    return (double)((int) value + (int) (value * v) % v / v)
+}
 void Display::draw_compass(double value) {
         ctx->set_identity_matrix();
 
@@ -107,12 +110,13 @@ void Display::draw_compass(double value) {
         ctx->begin_new_path();
         ctx->translate(surface->get_width()/2,surface->get_height()/2); // position
         ctx->arc_negative(0,0,compass_rad,deg_rad(compass_arc-90),deg_rad(-compass_arc-90));
-        ctx->stroke_preserve();
+        ctx->stroke();
 
         ctx->move_to(0,0);
 
         ctx->set_font_size(30);
-        std::string label = std::to_string(value);
+        
+        std::string label = std::to_string(set_precision(value, 1));
         Cairo::TextExtents extents;
         ctx->get_text_extents(label, extents);
         ctx->rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <cmath>
 #include <sstream>
 #include <map>
 
