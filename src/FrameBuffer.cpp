@@ -69,12 +69,15 @@ class FrameBuffer {
 
   private:
     void open_fb() {
+
+#ifdef DEV_MODE
       int tty = open("/dev/tty1", O_RDWR);
 
       if(ioctl(tty, KDSETMODE, KD_GRAPHICS) == -1)
         std::cout << "Failed to set graphics mode on tty1" << std::endl;
 
       close(tty);
+#endif
 
       std::string fb_name = "/dev/fb"+std::to_string(fb_id);
       fd = open(fb_name.c_str(), O_RDWR);

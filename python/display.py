@@ -163,30 +163,28 @@ class Display:
         self.ctx.identity_matrix()
         for fill in fills:
             self.ctx.append_path(fill)
-            # self.ctx.fill()
+
+        self.ctx.identity_matrix()
+        fill_extents = self.ctx.fill_extents()
+        self.ctx.fill()
+        self.ctx.identity_matrix()
 
         for stroke in strokes:
-            
             self.ctx.append_path(stroke)
-
-            self.ctx.identity_matrix()
-            extents = self.ctx.path_extents()
-
-            # self.ctx.stroke()
-
-
         self.ctx.stroke()
 
-        return extents
+        self.ctx.identity_matrix()
+        stroke_extents = self.ctx.path_extents()
+        self.ctx.stroke()
 
-        width = 170
-        height = 120
-        return (
-            compass_pos[0] - width,
-            compass_pos[1] - compass_rad - 60,
-            width * 2,
-            height
-        )
+        extents = [
+            min(stroke_extents[0], fill_extents[0]),
+            min(stroke_extents[1], fill_extents[1]),
+            max(stroke_extents[2], fill_extents[2]),
+            max(stroke_extents[3], fill_extents[3])
+        ]
+
+        return extents
 
     @composite('fps')
     def fps(self, fps):

@@ -8,6 +8,8 @@
 #include "Display.h"
 #include "GPS.h"
 
+#define DEV_MODE 1
+
 int main() {
   // FrameBuffer fb {0};
 
