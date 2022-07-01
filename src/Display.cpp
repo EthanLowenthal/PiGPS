@@ -259,11 +259,10 @@ void Display::start_screen(GPS gps, Data data) {
 
     double blink = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count() / 1000.0;
-    std::cout << blink << std::endl;
+    ).count() / 500.0;
 
     if (data.pin_lat == 0 || data.pin_lon == 0) {
-        double b = sin(blink);
+        double b = (sin(blink) + 1) / 2.0;
         ctx->set_source_rgb(b, b, b);
     } else {
         ctx->set_source_rgb(1, 1, 1);
@@ -279,7 +278,7 @@ void Display::start_screen(GPS gps, Data data) {
     );
 
     if (data.boat_lat == 0 || data.boat_lon == 0) {
-        double b = sin(blink);
+        double b = (sin(blink) + 1) / 2.0;
         ctx->set_source_rgb(b, b, b);
     } else {
         ctx->set_source_rgb(1, 1, 1);
