@@ -1,7 +1,5 @@
 #include "Display.h"
 
-const double PI = 3.14159;
-
 std::map<int, Cairo::Format> bpp_to_format {
     {32, Cairo::Format::FORMAT_ARGB32},
     {16, Cairo::Format::FORMAT_RGB16_565}
@@ -15,7 +13,7 @@ int get_compass_line_length(int deg) {
 }
 
 double deg_rad(double deg) {
-    return deg / 180 * PI;
+    return deg / 180 * M_PI;
 }
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 6) {
@@ -171,6 +169,33 @@ void Display::start_screen(GPS gps) {
     ctx->fill();
 
 
-    // ctx->move_to(width * 0.25, height * )
+    double buoy_size = 50;
+    ctx->move_to(width * 0.25, divider_height * 0.5);
+    ctx->arc(
+        width * 0.25, 
+        divider_height * 0.5,
+        buoy_size,
+        0,
+        2 * M_PI
+    );
+
+    ctx->rectangle(
+        width * 0.75 - buoy_size/2,
+        divider_height * 0.5 - buoy_size/2,
+        width * 0.75 + buoy_size/2, 
+        divider_height * 0.5 + buoy_size/2
+    );
+    ctx->fill();
+
+
+    ctx->move_to(width * 0.25, divider_height * 0.5);
+    ctx->line_to(width * 0.75, divider_height * 0.5);
+    std::vector<double> dashes = {14.0, 6.0};
+
+    ctx->set_dash(dashes, 1);
+    ctx->stroke();
+
+
+
 
 }
