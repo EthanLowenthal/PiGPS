@@ -170,7 +170,7 @@ void Display::top_bar(GPS gps) {
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);
-    ctx->fill()
+    ctx->fill();
 }
 
 void Display::start_screen(GPS gps) {
