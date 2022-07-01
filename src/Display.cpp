@@ -111,7 +111,7 @@ void Display::draw_compass(double value) {
         ctx->get_text_extents(label, extents);
         ctx->rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35);
         ctx->text_path(label);
-        ctx->fill();
+        ctx->fill_preserve();
 
         ctx->set_font_size(20);
 
@@ -126,7 +126,7 @@ void Display::draw_compass(double value) {
 
             int line_length = get_compass_line_length((int) deg);
             ctx->rel_line_to(0, line_length);
-            ctx->stroke();
+            ctx->stroke_preserve();
 
             if ((int)deg % 20 == 0) {
                 ctx->rel_move_to(0,-15);
