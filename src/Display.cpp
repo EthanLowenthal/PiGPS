@@ -81,7 +81,7 @@ void Display::update(GPS gps) {
     fb.flip();
 };
 
-int get_compass_line_length(double deg) {
+int get_compass_line_length(int deg) {
     if (deg % 45 == 0) return 20;
     if (deg % 10 == 0) return 15;
     if (deg % 5 == 0) return 10;
@@ -119,7 +119,7 @@ void Display::draw_compass(double value) {
             ctx->rotate(deg_rad(5));
             ctx->rel_move_to(0,-compass_rad-30);
 
-            int line_length = get_compass_line_length(deg);
+            int line_length = get_compass_line_length((int) deg);
             ctx->rel_line_to(0, line_length);
             ctx->stroke();
 
