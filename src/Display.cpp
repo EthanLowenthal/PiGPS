@@ -162,8 +162,7 @@ void Display::start_screen(GPS gps) {
 
     ctx->move_to(cell_width * 1.5, divider_height * 0.5);
 
-    std::string label = "time here";
-    Cairo::TextExtents extents;
+    label = "time here";
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);
