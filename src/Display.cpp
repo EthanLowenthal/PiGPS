@@ -24,6 +24,9 @@ std::string to_string_with_precision(const T a_value, const int n = 6) {
 }
 
 const std::string currentDateTime() {
+    setenv("TZ", "PST8PDT", 1);
+    tzset();
+
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[80];
@@ -179,7 +182,7 @@ void Display::top_bar(GPS gps) {
     ctx->text_path(label);
 
     ctx->move_to(cell_width * 1.5, text_height);
-    label = "Accuracy: " + std::to_string(gps.accuracy) + "m";
+    label = "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m";
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);
