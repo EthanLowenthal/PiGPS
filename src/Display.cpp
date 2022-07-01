@@ -133,7 +133,7 @@ void Display::draw_compass(double value) {
 
                 std::string label = std::to_string((int)deg % 360);
 
-                ctx->get_text_extents(label, extents)
+                ctx->get_text_extents(label, extents);
                 ctx->rel_move_to(-extents.width/2,-extents.height/2)
                 ctx->text_path(label)
             }
