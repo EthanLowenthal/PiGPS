@@ -97,6 +97,8 @@ double deg_rad(double deg) {
 }
 
 void Display::draw_compass(double value) {
+        ctx->set_identity_matrix();
+
         ctx->set_source_rgb(1,1,1);
 
         double compass_arc = 360 / 8;
@@ -105,7 +107,7 @@ void Display::draw_compass(double value) {
         ctx->begin_new_path();
         ctx->translate(surface->get_width()/2,surface->get_height()/2); // position
         ctx->arc_negative(0,0,compass_rad,deg_rad(compass_arc-90),deg_rad(-compass_arc-90));
-        // ctx->begin_new_path();
+        ctx->stroke_preserve();
 
         ctx->move_to(0,0);
 
