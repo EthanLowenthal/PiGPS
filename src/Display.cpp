@@ -72,7 +72,9 @@ void Display::update(GPS gps) {
     str_out.str("");
     str_out.clear();
 
-    draw_compass(a * 10);
+    // draw_compass(a * 10);
+    draw_compass(0);
+
     // put_text(surface->get_width()-100, line_height * 4);
 
     // delta_ticks = clock() - current_ticks; 
@@ -133,7 +135,7 @@ void Display::draw_compass(double value) {
         int offset = (int) value % 5;
         ctx->rotate(deg_rad(-offset - 45));
         for (int true_deg = -compass_arc - offset; true_deg < compass_arc - offset + 5; true_deg += 5) {
-            int deg = true_deg - 5;
+            int deg = true_deg + (int) value + 5;
 
             ctx->move_to(0,0);
             ctx->rotate(deg_rad(5));
