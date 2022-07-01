@@ -133,7 +133,7 @@ void Display::draw_compass(double value) {
         int offset = (int) value % 5;
         ctx->rotate(deg_rad(-offset - 45));
         for (int true_deg = -compass_arc - offset; true_deg < compass_arc - offset + 5; true_deg += 5) {
-            int deg = true_deg + (int) value;
+            int deg = true_deg - 5;
 
             ctx->move_to(0,0);
             ctx->rotate(deg_rad(5));
