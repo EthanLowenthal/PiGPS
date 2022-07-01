@@ -257,9 +257,10 @@ void Display::start_screen(GPS gps, Data data) {
         2 * M_PI
     );
 
-    double blink = std::chrono::duration_cast<double>(
+    double blink = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    )
+    ).count() / 1000.0;
+    std::cout << blink << std::endl;
 
     if (data.pin_lat == 0 || data.pin_lon == 0) {
         double b = sin(blink);
