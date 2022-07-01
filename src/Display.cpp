@@ -311,14 +311,14 @@ void Display::start_screen(GPS gps, Data data) {
     ctx->move_to(width * 0.5, height * 0.1);
     ctx->rotate(data.wind_dir);
     ctx->rel_line_to(0, 20);
-    ctx.stroke_preserve();
+    ctx->stroke_preserve();
     ctx->rel_line_to(-10, -10);
     ctx->rel_line_to(20, 0);
     ctx->rel_line_to(-10, 10);
 
     ctx->fill();
     ctx->set_source_rgb(1, 1, 1);
-    
+
     // if (has_pos_data) {
     // 
     // }
