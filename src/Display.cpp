@@ -30,7 +30,7 @@ const std::string currentDateTime() {
     tstruct = *localtime(&now);
     // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
     // for more information about date/time format
-    strftime(buf, sizeof(buf), "%a, %b%e, %l:%M:%S %p", &tstruct);
+    strftime(buf, sizeof(buf), "%a, %b %e, %l:%M:%S %p", &tstruct);
 
     return buf;
 }
@@ -170,6 +170,20 @@ void Display::top_bar(GPS gps) {
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);
+
+    ctx->move_to(cell_width * 0.5, text_height);
+
+    label = "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible);
+    ctx->get_text_extents(label, extents);
+    ctx->rel_move_to(-extents.width/2,extents.height/2);
+    ctx->text_path(label);
+
+    ctx->move_to(cell_width * 1.5, text_height);
+    label = "Accuracy: " + std::to_string(gps.accuracy) + "m";
+    ctx->get_text_extents(label, extents);
+    ctx->rel_move_to(-extents.width/2,extents.height/2);
+    ctx->text_path(label);
+
     ctx->fill();
 }
 
@@ -215,7 +229,7 @@ void Display::start_screen(GPS gps) {
 
     ctx->move_to(cell_width * 2.5, text_height);
 
-    label = "+0:03\n1m";
+    label = "+0:03 | 1m";
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);

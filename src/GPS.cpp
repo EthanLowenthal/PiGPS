@@ -32,7 +32,14 @@ void GPS::update() {
 
     
     speed = gpsd_data->fix.speed * MPS_TO_KTS;
-    heading = gpsd_data->fix.track;
+    heading = gpsd_data->fix.magnetic_track; // track is cmg
+
+    accuracy = sqrt(gpsd_data->fix.epy * gpsd_data->fix.epy + gpsd_data->fix.epx * gpsd_data->fix.epx);
+
+    satellites_used = gpsd_data->satellites_used;
+    satellites_visible = gpsd_data->satellites_visible;
+
+
     double eps = gpsd_data->fix.eps;
     timespec time = gpsd_data->fix.time;
 
