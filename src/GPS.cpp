@@ -55,7 +55,7 @@ void GPS::update() {
     // const auto s_vis{gpsd_data->satellites_visible};
     // const auto s_used{gpsd_data->satellites_used};
     
-    std::cout << std::setprecision(8) << std::fixed;  // set output to fixed floating point, 8 decimal precision
+    // std::cout << std::setprecision(8) << std::fixed;  // set output to fixed floating point, 8 decimal precision
     // std::cout << lat << ", " << lon << ", " << speed << " +- " << eps << ", " << dist_traveled << "," << gpsd_data->fix.time.tv_nsec << std::endl;
 }
 

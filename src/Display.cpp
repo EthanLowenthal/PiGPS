@@ -159,6 +159,7 @@ void Display::top_bar(GPS gps) {
         ctx->move_to(i * cell_width,divider_height);
         ctx->line_to(i * cell_width,0);
     }
+    ctx->stroke();
 
     double text_height = divider_height * 0.5;
 
@@ -169,6 +170,7 @@ void Display::top_bar(GPS gps) {
     ctx->get_text_extents(label, extents);
     ctx->rel_move_to(-extents.width/2,extents.height/2);
     ctx->text_path(label);
+    ctx->fill()
 }
 
 void Display::start_screen(GPS gps) {
@@ -211,7 +213,7 @@ void Display::start_screen(GPS gps) {
     ctx->fill();
     ctx->set_source_rgb(0, 1, 0);
 
-    ctx->move_to(cell_width * 3.5, text_height);
+    ctx->move_to(cell_width * 2.5, text_height);
 
     label = "+0:03";
     ctx->get_text_extents(label, extents);
