@@ -7,6 +7,7 @@
 
 #include "Display.h"
 #include "GPS.h"
+#include "Data.h"
 
 #define DEV_MODE 1
 
@@ -23,11 +24,12 @@ int main() {
 
   GPS gps {};
   Display display {};
+  Data data {};
 
   while (true) {
     // current_ticks = clock();
     
     gps.update();
-    display.update(gps);
+    display.update(gps, data);
   }
 }

@@ -57,7 +57,7 @@ void Display::put_text(double x, double y) {
     str_out.clear();
 };
 
-void Display::update(GPS gps) {
+void Display::update(GPS gps, Data data) {
     ctx->set_identity_matrix();
 
     ctx->rectangle(0,0,surface->get_width(),surface->get_height());
@@ -74,7 +74,7 @@ void Display::update(GPS gps) {
 
     ctx->set_source_rgb(1, 1, 1);
 
-    start_screen(gps);
+    start_screen(gps, data);
     top_bar(gps);
 
     // str_out << "Latitude: " << gps.lat;
@@ -190,7 +190,7 @@ void Display::top_bar(GPS gps) {
     ctx->fill();
 }
 
-void Display::start_screen(GPS gps) {
+void Display::start_screen(GPS gps, Data data) {
 
     // BOTTOM INFO
 
@@ -256,6 +256,15 @@ void Display::start_screen(GPS gps) {
         0,
         2 * M_PI
     );
+
+    if (data.pin_lat == 0 || data.pin_lon == 0) {
+        double b = sin(time(0) * 0.001);
+        ctx->set_source_rgb(b, b, b);
+    } else {
+        ctx->set_source_rgb(1, 1, 1);
+    }
+    ctx->fill();
+    
 
     ctx->rectangle(
         boat_pos - buoy_size/2,

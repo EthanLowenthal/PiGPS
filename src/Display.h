@@ -13,6 +13,7 @@
 
 #include "FrameBuffer.cpp"
 #include "GPS.h"
+#include "Data.h"
 
 #ifndef DISPLAY_H
 #define DISPLAY_H
