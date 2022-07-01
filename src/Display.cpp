@@ -95,17 +95,22 @@ int get_compass_line_length(int deg) {
 double deg_rad(double deg) {
     return deg / 180 * PI;
 }
-double set_precision(double val, int precision) {
-    int v = pow(10, precision);
-    return (double)(((double)(int) val) + ((double)((int) (val * v) % v)) / v);
+template <typename T>
+std::string to_string_with_precision(const T a_value, const int n = 6)
+{
+    std::ostringstream out;
+    out.precision(n);
+    out << std::fixed << a_value;
+    return out.str();
 }
+
 void Display::draw_compass(double value) {
         ctx->set_identity_matrix();
 
         ctx->set_source_rgb(1,1,1);
 
-        double compass_arc = 360 / 8;
-        double compass_rad = 150;
+        int compass_arc = 360 / 8;
+        int compass_rad = 150;
 
         ctx->begin_new_path();
         ctx->translate(surface->get_width()/2,surface->get_height()/2); // position
@@ -116,7 +121,7 @@ void Display::draw_compass(double value) {
 
         ctx->set_font_size(30);
         
-        std::string label = std::to_string(set_precision(value, 1));
+        std::string label = to_string_with_precision(value, 1);
         Cairo::TextExtents extents;
         ctx->get_text_extents(label, extents);
         ctx->rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35);
@@ -125,23 +130,23 @@ void Display::draw_compass(double value) {
 
         ctx->set_font_size(20);
 
-        double offset = (int)value % 5;
+        int offset = (int) value % 5;
         ctx->rotate(deg_rad(-offset - 45));
-        for (double true_deg = -compass_arc - offset; true_deg < compass_arc - offset + 5; true_deg += 5) {
-            double deg = true_deg + value;
+        for (int true_deg = -compass_arc - offset; true_deg < compass_arc - offset + 5; true_deg += 5) {
+            int deg = true_deg + (int) value;
 
             ctx->move_to(0,0);
             ctx->rotate(deg_rad(5));
             ctx->rel_move_to(0,-compass_rad-30);
 
-            int line_length = get_compass_line_length((int) deg);
+            int line_length = get_compass_line_length(deg);
             ctx->rel_line_to(0, line_length);
             ctx->stroke_preserve();
 
-            if ((int)deg % 20 == 0) {
+            if (deg % 20 == 0) {
                 ctx->rel_move_to(0,-15);
 
-                std::string label = std::to_string((int)deg % 360);
+                std::string label = std::to_string(deg % 360);
 
                 ctx->get_text_extents(label, extents);
                 ctx->rel_move_to(-extents.width/2,-extents.height/2);
