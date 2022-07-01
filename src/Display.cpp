@@ -71,6 +71,8 @@ void Display::update(GPS gps) {
     ctx->show_text(str_out.str());  
     str_out.str("");
     str_out.clear();
+
+    draw_compass(0);
     // put_text(surface->get_width()-100, line_height * 4);
 
     // delta_ticks = clock() - current_ticks; 
@@ -95,11 +97,13 @@ double deg_rad(double deg) {
 }
 
 void Display::draw_compass(double value) {
+        ctx->set_source_rgb(1,1,1);
+
         double compass_arc = 360 / 8;
         double compass_rad = 150;
 
         ctx->begin_new_path();
-        ctx->translate(surface->get_width()/2,400); // position
+        ctx->translate(surface->get_width()/2,surface->get_height()/2); // position
         ctx->arc_negative(0,0,compass_rad,deg_rad(compass_arc-90),deg_rad(-compass_arc-90));
         // ctx->begin_new_path();
 
