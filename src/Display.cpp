@@ -257,6 +257,8 @@ void Display::start_screen(GPS gps, Data data) {
         2 * M_PI
     );
 
+    bool has_pos_data = false;
+
     double blink = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     ).count() / 250.0;
@@ -266,10 +268,10 @@ void Display::start_screen(GPS gps, Data data) {
         ctx->set_source_rgb(b, b, b);
     } else {
         ctx->set_source_rgb(1, 1, 1);
+        has_pos_data = true;
     }
     ctx->fill();
     
-
     ctx->rectangle(
         boat_pos - buoy_size/2,
         line_height - buoy_size/2,
@@ -282,6 +284,7 @@ void Display::start_screen(GPS gps, Data data) {
         ctx->set_source_rgb(b, b, b);
     } else {
         ctx->set_source_rgb(1, 1, 1);
+        has_pos_data = true;
     }
     ctx->fill();
     
@@ -295,5 +298,29 @@ void Display::start_screen(GPS gps, Data data) {
     ctx->set_dash(dashes, 1);
     ctx->stroke();
     ctx->unset_dash();
+
+
+    // WIND ARROW
+    if (data.wind_dir == 0) {
+        double b = (sin(blink) + 1) / 2.0;
+        ctx->set_source_rgb(b, b, b);
+    } else {
+        ctx->set_source_rgb(1, 1, 1);
+    }
+
+    ctx->move_to(width * 0.5, height * 0.1);
+    ctx->rotate(data.wind_dir);
+    ctx->rel_line_to(0, 20);
+    ctx.stroke_preserve();
+    ctx->rel_line_to(-10, -10);
+    ctx->rel_line_to(20, 0);
+    ctx->rel_line_to(-10, 10);
+
+    ctx->fill();
+    ctx->set_source_rgb(1, 1, 1);
+    
+    // if (has_pos_data) {
+    // 
+    // }
 
 }
