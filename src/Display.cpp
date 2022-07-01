@@ -141,16 +141,18 @@ void Display::start_screen(GPS gps) {
     ctx->line_to(width,divider_height);
 
     int divisions = 3;
-    double cell_width = 1.0/divisions;
+    double cell_width = (double)width/divisions;
 
     for (int i=1;i<divisions;i++) {
         ctx->move_to(i * cell_width,divider_height);
-        ctx->line_to(i * cell_width,0);
+        ctx->line_to(i * cell_width,height);
     }
 
     ctx->stroke();
 
-    ctx->move_to(cell_width * 0.5, divider_height * 0.5);
+    double text_height = divider_height + (height - divider_height) * 0.5;
+
+    ctx->move_to(cell_width * 0.5, text_height);
 
     std::string label = to_string_with_precision(gps.speed, 1) + " kts";
     Cairo::TextExtents extents;
@@ -160,7 +162,7 @@ void Display::start_screen(GPS gps) {
     ctx->fill();
 
 
-    ctx->move_to(cell_width * 1.5, divider_height * 0.5);
+    ctx->move_to(cell_width * 1.5, text_height);
 
     label = "time here";
     ctx->get_text_extents(label, extents);
@@ -169,5 +171,6 @@ void Display::start_screen(GPS gps) {
     ctx->fill();
 
 
+    // ctx->move_to(width * 0.25, height * )
 
 }
