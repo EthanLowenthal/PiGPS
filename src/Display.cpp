@@ -134,6 +134,9 @@ void Display::draw_compass(double value) {
 }
 
 void Display::start_screen(GPS gps) {
+
+    // BOTTOM INFO
+
     double divider_height = height * 0.75;
     ctx->move_to(0,divider_height);
     ctx->line_to(width,divider_height);
@@ -167,10 +170,12 @@ void Display::start_screen(GPS gps) {
     ctx->text_path(label);
 
 
+    // START LINE DISPLAY
+
     double pin_pos = width * 0.15;
     double boat_pos = width * 0.85;
-    double line_height = divider_height * 0.5;
-    double buoy_size = 50;
+    double line_height = divider_height * 0.3;
+    double buoy_size = 40;
 
     ctx->move_to(pin_pos, line_height);
     ctx->arc(
@@ -184,8 +189,8 @@ void Display::start_screen(GPS gps) {
     ctx->rectangle(
         boat_pos - buoy_size/2,
         line_height - buoy_size/2,
-        buoy_size/2, 
-        buoy_size/2
+        buoy_size, 
+        buoy_size
     );
     ctx->fill();
 
