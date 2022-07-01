@@ -26,7 +26,7 @@ class Display {
         Display();
         void put_text(double x, double y);
         void update(GPS gps);
-        void draw_compass(int value);
+        void draw_compass(double value);
 };
 
 #endif
