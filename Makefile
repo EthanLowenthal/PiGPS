@@ -18,17 +18,18 @@ PKG_FLAGS = $(shell pkg-config --cflags --libs $(PKGS))
 .PHONY: $(TARGET)
 $(TARGET):
 	$(CXX) $(PKG_FLAGS) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
+	sudo mv ./$(OUTPUT) ~/pigps
 
 # TODO change tty and install cpp libs
 
 install: $(TARGET)
-	mv ./$(OUTPUT) /pigps
-	cp ./start_gpsd.sh /start_gpsd.sh
+	sudo mv ./$(OUTPUT) ~/pigps
+	sudo cp ./start_gpsd.sh ~/start_gpsd.sh
 
-	cp pigps.service /etc/systemd/system/pigps.service
+	sudo cp pigps.service /etc/systemd/system/pigps.service
 	sudo systemctl daemon-reload
-	systemctl enable pigps.service
-	systemctl start pigps.service
+	sudo systemctl enable pigps.service
+	sudo systemctl start pigps.service
 
 
 # .PHONY: clean

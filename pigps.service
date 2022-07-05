@@ -7,8 +7,8 @@ StartLimitIntervalSec=10
 Type=simple
 Restart=always
 RestartSec=1
-ExecStartPre=/start_gpsd.sh
-ExecStart=/pigps
+ExecStartPre=~/start_gpsd.sh
+ExecStart=~/pigps
 
 [Install]
 WantedBy=multi-user.target
