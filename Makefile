@@ -18,7 +18,6 @@ PKG_FLAGS = $(shell pkg-config --cflags --libs $(PKGS))
 .PHONY: $(TARGET)
 $(TARGET):
 	$(CXX) $(PKG_FLAGS) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
-	sudo mv ./$(OUTPUT) ~/pigps
 
 # TODO change tty and install cpp libs
 
