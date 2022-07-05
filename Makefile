@@ -3,7 +3,7 @@
 CXX = g++
 
 TARGET = main
-OUTPUT = pigps
+OUTPUT = main
 FLAGS = -std=c++17 -Wall
 
 SRC_DIRS = ./src
@@ -23,8 +23,8 @@ $(TARGET):
 # TODO change tty and install cpp libs
 
 install: $(TARGET)
-	sudo mv ./$(OUTPUT) ~/pigps
-	sudo cp ./start_gpsd.sh ~/start_gpsd.sh
+	sudo mv ./$(OUTPUT) /home/pi/pigps
+	sudo cp ./start_gpsd.sh /home/pi/start_gpsd.sh
 
 	sudo cp pigps.service /etc/systemd/system/pigps.service
 	sudo systemctl daemon-reload
