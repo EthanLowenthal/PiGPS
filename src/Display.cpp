@@ -1,5 +1,7 @@
 #include "Display.h"
 
+const double DEG_RAD = M_PI / 180;
+
 std::map<int, Cairo::Format> bpp_to_format {
     {32, Cairo::Format::FORMAT_ARGB32},
     {16, Cairo::Format::FORMAT_RGB16_565}
@@ -12,9 +14,34 @@ int get_compass_line_length(int deg) {
     return 0;
 }
 
-double deg_rad(double deg) {
-    return deg / 180 * M_PI;
+double lat_lon_bearing(double la1, double lo1, double la2, double lo2) {
+    double lat1 = la1 * DEG_RAD;
+    double lon1 = lo1 * DEG_RAD;
+    double lat2 = la2 * DEG_RAD;
+    double lon2 = lo2 * DEG_RAD;
+
+    double x = cos(lat2) * sin(lon2-lon1);
+    double y = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(lon2-lon1);
+    return atan2(x, y) / DEG_RAD;
 }
+
+double lat_lon_dist(double la1, double lo1, double la2, double lo2) {
+    const int RADIUS = 6371000;
+
+    double lat1 = la1 * DEG_RAD;
+    double lon1 = lo1 * DEG_RAD;
+    double lat2 = la2 * DEG_RAD;
+    double lon2 = lo2 * DEG_RAD;
+
+    double d_lat = (lat2-lat1);
+    double d_lon = (lon2-lon1);
+
+    double a = sin(d_lat / 2) * sin(d_lat / 2) + cos(lat1) * cos(lat1) * sin(d_lon / 2) * sin(d_lon / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+
+    return c * RADIUS;
+}
+
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 6) {
     std::ostringstream out;
@@ -97,56 +124,56 @@ void Display::update(GPS gps, Data data) {
 };
 
 void Display::draw_compass(double value) {
-        ctx->set_identity_matrix();
+    ctx->set_identity_matrix();
 
-        ctx->set_source_rgb(1,1,1);
+    ctx->set_source_rgb(1,1,1);
 
-        int compass_arc = 360 / 8;
-        int compass_rad = 150;
+    int compass_arc = 360 / 8;
+    int compass_rad = 150;
 
-        ctx->begin_new_path();
-        ctx->translate(width/2,height/2); // position
-        ctx->arc_negative(0,0,compass_rad,deg_rad(compass_arc-90),deg_rad(-compass_arc-90));
-        ctx->stroke();
+    ctx->begin_new_path();
+    ctx->translate(width/2,height/2); // position
+    ctx->arc_negative(0,0,compass_rad,DEG_RAD * (compass_arc-90),DEG_RAD * (-compass_arc-90));
+    ctx->stroke();
+
+    ctx->move_to(0,0);
+
+    ctx->set_font_size(30);
+    
+    std::string label = to_string_with_precision(value, 1);
+    Cairo::TextExtents extents;
+    ctx->get_text_extents(label, extents);
+    ctx->rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35);
+    ctx->text_path(label);
+    ctx->fill_preserve();
+
+    ctx->set_font_size(20);
+
+    int offset = (int) value % 5;
+    ctx->rotate(DEG_RAD * (-offset - 45));
+    for (int true_deg = -compass_arc - offset; true_deg <= compass_arc - offset; true_deg += 5) {
+        int deg = true_deg + (int) value + 5;
 
         ctx->move_to(0,0);
+        ctx->rotate(DEG_RAD * 5);
+        ctx->rel_move_to(0,-compass_rad-30);
 
-        ctx->set_font_size(30);
-        
-        std::string label = to_string_with_precision(value, 1);
-        Cairo::TextExtents extents;
-        ctx->get_text_extents(label, extents);
-        ctx->rel_move_to(-extents.width/2,-compass_rad+extents.height/2+35);
-        ctx->text_path(label);
-        ctx->fill_preserve();
+        int line_length = get_compass_line_length(deg);
+        ctx->rel_line_to(0, line_length);
+        ctx->stroke_preserve();
 
-        ctx->set_font_size(20);
+        if (deg % 20 == 0) {
+            ctx->rel_move_to(0,-15);
 
-        int offset = (int) value % 5;
-        ctx->rotate(deg_rad(-offset - 45));
-        for (int true_deg = -compass_arc - offset; true_deg <= compass_arc - offset; true_deg += 5) {
-            int deg = true_deg + (int) value + 5;
+            std::string label = std::to_string(deg % 360);
 
-            ctx->move_to(0,0);
-            ctx->rotate(deg_rad(5));
-            ctx->rel_move_to(0,-compass_rad-30);
-
-            int line_length = get_compass_line_length(deg);
-            ctx->rel_line_to(0, line_length);
-            ctx->stroke_preserve();
-
-            if (deg % 20 == 0) {
-                ctx->rel_move_to(0,-15);
-
-                std::string label = std::to_string(deg % 360);
-
-                ctx->get_text_extents(label, extents);
-                ctx->rel_move_to(-extents.width/2,-extents.height/2);
-                ctx->text_path(label);
-            }
-                
-            ctx->fill();
-        }            
+            ctx->get_text_extents(label, extents);
+            ctx->rel_move_to(-extents.width/2,-extents.height/2);
+            ctx->text_path(label);
+        }
+            
+        ctx->fill();
+    }            
 }
 
 void Display::top_bar(GPS gps) {
@@ -301,26 +328,27 @@ void Display::start_screen(GPS gps, Data data) {
 
 
     // WIND ARROW
-    if (data.wind_dir == 0) {
-        double b = (sin(blink) + 1) / 2.0;
-        ctx->set_source_rgb(b, b, b);
-    } else {
-        ctx->set_source_rgb(1, 1, 1);
-    }
+    // if (data.wind_dir == 0) {
+    //     double b = (sin(blink) + 1) / 2.0;
+    //     ctx->set_source_rgb(b, b, b);
+    // } else {
+    //     ctx->set_source_rgb(1, 1, 1);
+    // }
 
-    double arrow_size = 20;
+    // double arrow_size = 20;
 
-    ctx->move_to(width * 0.5, height * 0.12);
-    ctx->rotate(data.wind_dir);
-    ctx->rel_line_to(0, 30);
-    ctx->stroke_preserve();
-    ctx->rel_line_to(-arrow_size, -arrow_size);
-    ctx->rel_line_to(arrow_size * 2, 0);
-    ctx->rel_line_to(-arrow_size, arrow_size);
+    // ctx->move_to(width * 0.5, height * 0.12);
+    // ctx->rotate(data.wind_dir); // TODO make relative to line
+    // ctx->rel_line_to(0, arrow_size * 2);
+    // ctx->stroke_preserve();
+    // ctx->rel_line_to(-arrow_size, -arrow_size);
+    // ctx->rel_line_to(arrow_size * 2, 0);
+    // ctx->rel_line_to(-arrow_size, arrow_size);
 
-    ctx->fill();
+    // ctx->fill();
     ctx->set_source_rgb(1, 1, 1);
 
+    // TODO draw player
     // if (has_pos_data) {
     // 
     // }
