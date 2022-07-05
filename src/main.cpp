@@ -1,5 +1,6 @@
 // g++ $(pkg-config --cflags --libs cairomm-1.0 libgps) -std=c++17 GPS.cpp FrameBuffer.cpp main.cpp -o main -lcairomm-1.0 -lgps
-// sudo apt-get install libcairomm-1.0-dev libgps-dev
+// sudo apt-get update
+// sudo apt-get install -y libcairomm-1.0-dev libgps-dev gpsd lsof
 // https://techoverflow.net/2021/10/19/how-to-hide-all-boot-text-blinking-cursor-on-raspberry-pi/
 
 // #include <cairomm/context.h>
