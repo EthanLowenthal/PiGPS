@@ -23,10 +23,13 @@ $(TARGET):
 
 install: $(TARGET)
 	sudo mv ./$(OUTPUT) /home/pi/pigps
-	sudo cp ./start_gpsd.sh /home/pi/start_gpsd.sh
 
 	sudo cp pigps.service /etc/systemd/system/pigps.service
 	sudo systemctl daemon-reload
+
+	sudo systemctl enable gpsd
+	sudo systemctl start gpsd
+
 	sudo systemctl enable pigps.service
 	sudo systemctl start pigps.service
 
