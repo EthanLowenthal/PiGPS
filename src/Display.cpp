@@ -84,7 +84,7 @@ void Display::put_text(double x, double y) {
     str_out.clear();
 };
 
-void Display::update(GPS gps, Data data) {
+void Display::update(GPS gps) {
     ctx->set_identity_matrix();
 
     ctx->rectangle(0,0,surface->get_width(),surface->get_height());
@@ -101,7 +101,7 @@ void Display::update(GPS gps, Data data) {
 
     ctx->set_source_rgb(1, 1, 1);
 
-    start_screen(gps, data);
+    start_screen(gps);
     top_bar(gps);
 
     // str_out << "Latitude: " << gps.lat;
@@ -217,7 +217,7 @@ void Display::top_bar(GPS gps) {
     ctx->fill();
 }
 
-void Display::start_screen(GPS gps, Data data) {
+void Display::start_screen(GPS gps) {
 
     // BOTTOM INFO
 
@@ -290,7 +290,8 @@ void Display::start_screen(GPS gps, Data data) {
         std::chrono::system_clock::now().time_since_epoch()
     ).count() / 250.0;
 
-    if (data.pin_lat == 0 || data.pin_lon == 0) {
+    // if (data.pin_lat == 0 || data.pin_lon == 0) {
+    if (true) {
         double b = (sin(blink) + 1) / 2.0;
         ctx->set_source_rgb(b, b, b);
     } else {
@@ -306,7 +307,8 @@ void Display::start_screen(GPS gps, Data data) {
         buoy_size
     );
 
-    if (data.boat_lat == 0 || data.boat_lon == 0) {
+    // if (data.boat_lat == 0 || data.boat_lon == 0) {
+    if (true) {
         double b = (sin(blink) + 1) / 2.0;
         ctx->set_source_rgb(b, b, b);
     } else {

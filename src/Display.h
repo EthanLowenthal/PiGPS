@@ -14,7 +14,6 @@
 
 #include "FrameBuffer.cpp"
 #include "GPS.h"
-#include "Data.h"
 
 #ifndef DISPLAY_H
 #define DISPLAY_H
@@ -34,9 +33,9 @@ class Display {
     public:
         Display();
         void put_text(double x, double y);
-        void update(GPS gps, Data data);
+        void update(GPS gps);
         void draw_compass(double value);
-        void start_screen(GPS gps, Data data);
+        void start_screen(GPS gps);
         void top_bar(GPS gps);
 };
 
