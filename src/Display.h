@@ -33,10 +33,10 @@ class Display {
     public:
         Display();
         void put_text(double x, double y);
-        void update(GPS gps);
+        void update(GPS& gps);
         void draw_compass(double value);
-        void start_screen(GPS gps);
-        void top_bar(GPS gps);
+        void start_screen(GPS& gps);
+        void top_bar(GPS& gps);
 };
 
 #endif

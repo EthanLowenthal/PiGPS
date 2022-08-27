@@ -84,7 +84,7 @@ void Display::put_text(double x, double y) {
     str_out.clear();
 };
 
-void Display::update(GPS &gps) {
+void Display::update(GPS& gps) {
     ctx->set_identity_matrix();
 
     ctx->rectangle(0,0,surface->get_width(),surface->get_height());
@@ -176,7 +176,7 @@ void Display::draw_compass(double value) {
     }            
 }
 
-void Display::top_bar(GPS &gps) {
+void Display::top_bar(GPS& gps) {
     double divider_height = height * 0.1;
 
     ctx->move_to(0,divider_height);
@@ -217,7 +217,7 @@ void Display::top_bar(GPS &gps) {
     ctx->fill();
 }
 
-void Display::start_screen(GPS &gps) {
+void Display::start_screen(GPS& gps) {
 
     // BOTTOM INFO
 
