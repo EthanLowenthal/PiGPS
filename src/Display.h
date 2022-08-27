@@ -36,7 +36,7 @@ class Display {
         void update(GPS& gps);
         void draw_compass(double value);
         void start_screen(GPS& gps);
-        void top_bar(GPS& gps);
+        void label_bar(double divider_y, double divider_height, std::vector<std::string> labels);
 };
 
 #endif
