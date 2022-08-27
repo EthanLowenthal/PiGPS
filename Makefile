@@ -19,6 +19,12 @@ PKG_FLAGS = $(shell pkg-config --cflags --libs $(PKGS))
 $(TARGET):
 	$(CXX) $(PKG_FLAGS) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
 
+
+.PHONY: debug
+debug:
+	$(CXX) $(PKG_FLAGS) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS) -g
+
+
 # .PHONY: clean
 # clean:
 # 	rm -r $(BUILD_DIR)
