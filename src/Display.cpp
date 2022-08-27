@@ -201,7 +201,7 @@ void Display::top_bar(GPS& gps) {
     double test_font_size = 100;
     ctx->set_font_size(test_font_size);
     ctx->get_text_extents(label, extents);
-    ctx->set_font_size(test_font_size / extents.width * extents.width);
+    ctx->set_font_size(test_font_size / extents.width * cell_width);
     ctx->rel_move_to(-cell_width/2,extents.height/2);
     ctx->text_path(label);
 
@@ -210,7 +210,7 @@ void Display::top_bar(GPS& gps) {
     label = "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible);
     ctx->set_font_size(test_font_size);
     ctx->get_text_extents(label, extents);
-    ctx->set_font_size(test_font_size / extents.width * extents.width);
+    ctx->set_font_size(test_font_size / extents.width * cell_width);
     ctx->rel_move_to(-cell_width/2,extents.height/2);
     ctx->text_path(label);
 
@@ -218,7 +218,7 @@ void Display::top_bar(GPS& gps) {
     label = "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m";
     ctx->set_font_size(test_font_size);
     ctx->get_text_extents(label, extents);
-    ctx->set_font_size(test_font_size / extents.width * extents.width);
+    ctx->set_font_size(test_font_size / extents.width * cell_width);
     ctx->rel_move_to(-cell_width/2,extents.height/2);
     ctx->text_path(label);
 
