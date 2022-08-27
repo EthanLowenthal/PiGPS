@@ -205,13 +205,13 @@ void Display::top_bar(GPS& gps) {
     for (int i=0;i<labels.size();i++) {
         auto label = labels.at(i);
 
+        ctx->move_to(cell_width * (i + 0.5), text_height);
+
         ctx->set_font_size(test_font_size);
         ctx->get_text_extents(label, extents);
         ctx->set_font_size(test_font_size / extents.width * text_width);
         ctx->rel_move_to(-cell_width/2,0);
         ctx->text_path(label);
-
-        ctx->move_to(cell_width * (i + 0.5), text_height);
     }
 
 
