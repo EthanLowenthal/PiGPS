@@ -182,45 +182,68 @@ void Display::top_bar(GPS& gps) {
     ctx->move_to(0,divider_height);
     ctx->line_to(width,divider_height);
 
-    int divisions = 3;
-    double cell_width = (double)width/divisions;
+    std::vector<std::string> labels {
+        currentDateTime(),
+        "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible),
+        "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m",
+    };
 
-    for (int i=1;i<divisions;i++) {
+    double cell_width = (double)width/labels.size();
+    double text_width = cell_width * 0.75;
+
+    for (int i=1;i<labels.size();i++) {
         ctx->move_to(i * cell_width,divider_height);
         ctx->line_to(i * cell_width,0);
     }
     ctx->stroke();
 
+
     double text_height = divider_height * 0.5;
-
-    ctx->move_to(cell_width * 2.5, text_height);
-
-    std::string label = currentDateTime();
+    double test_font_size = 100;
     Cairo::TextExtents extents;
 
-    double test_font_size = 100;
-    ctx->set_font_size(test_font_size);
-    ctx->get_text_extents(label, extents);
-    ctx->set_font_size(test_font_size / extents.width * cell_width);
-    ctx->rel_move_to(-cell_width/2,extents.height/2);
-    ctx->text_path(label);
+    for (int i=0;i<labels.size();i++) {
+        auto label = labels.at(i);
 
-    ctx->move_to(cell_width * 0.5, text_height);
+        ctx->set_font_size(test_font_size);
+        ctx->get_text_extents(label, extents);
+        ctx->set_font_size(test_font_size / extents.width * text_width);
+        ctx->rel_move_to(-cell_width/2,0);
+        ctx->text_path(label);
 
-    label = "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible);
-    ctx->set_font_size(test_font_size);
-    ctx->get_text_extents(label, extents);
-    ctx->set_font_size(test_font_size / extents.width * cell_width);
-    ctx->rel_move_to(-cell_width/2,extents.height/2);
-    ctx->text_path(label);
+        ctx->move_to(cell_width * (i + 0.5), text_height);
+    }
 
-    ctx->move_to(cell_width * 1.5, text_height);
-    label = "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m";
-    ctx->set_font_size(test_font_size);
-    ctx->get_text_extents(label, extents);
-    ctx->set_font_size(test_font_size / extents.width * cell_width);
-    ctx->rel_move_to(-cell_width/2,extents.height/2);
-    ctx->text_path(label);
+
+    // ctx->move_to(cell_width * 2.5, text_height);
+
+
+    // std::string label = currentDateTime();
+    // 
+
+
+    // ctx->set_font_size(test_font_size);
+    // ctx->get_text_extents(label, extents);
+    // ctx->set_font_size(test_font_size / extents.width * text_width);
+    // ctx->rel_move_to(-cell_width/2,0);
+    // ctx->text_path(label);
+
+    // ctx->move_to(cell_width * 0.5, text_height);
+
+    // label = "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible);
+    // ctx->set_font_size(test_font_size);
+    // ctx->get_text_extents(label, extents);
+    // ctx->set_font_size(test_font_size / extents.width * text_width);
+    // ctx->rel_move_to(-cell_width/2,0);
+    // ctx->text_path(label);
+
+    // ctx->move_to(cell_width * 1.5, text_height);
+    // label = "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m";
+    // ctx->set_font_size(test_font_size);
+    // ctx->get_text_extents(label, extents);
+    // ctx->set_font_size(test_font_size / extents.width * text_width);
+    // ctx->rel_move_to(-cell_width/2,0);
+    // ctx->text_path(label);
 
     ctx->fill();
 }
