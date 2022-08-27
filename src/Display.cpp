@@ -227,7 +227,7 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
         auto label = labels.at(i);
 
         ctx->get_text_extents(label, extents);
-        ctx->move_to(cell_width * i + (cell_width - extents.width) * 0.5, divider_y + extents.height * 0.5);
+        ctx->move_to(cell_width * i + (cell_width - extents.width) * 0.5, divider_y + (divider_height + extents.height) * 0.5);
         ctx->text_path(label);
     }
 
