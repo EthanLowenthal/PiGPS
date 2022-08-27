@@ -183,9 +183,9 @@ void Display::top_bar(GPS& gps) {
     ctx->line_to(width,divider_height);
 
     std::vector<std::string> labels {
-        currentDateTime(),
         "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible),
         "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m",
+        currentDateTime(),
     };
 
     double cell_width = (double)width/labels.size();
@@ -199,17 +199,26 @@ void Display::top_bar(GPS& gps) {
 
 
     double text_height = divider_height * 0.5;
-    double test_font_size = 100;
     Cairo::TextExtents extents;
+
+    double font_size = 100;
+    for (int i=0;i<labels.size();i++) {
+        auto label = labels.at(i);
+
+        ctx->set_font_size(font_size);
+        ctx->get_text_extents(label, extents);
+        double new_font_size = font_size / extents.width * text_width;
+        if (new_font_size < font_size) font_size = new_font_size;
+    }
+
+    ctx->set_font_size(font_size);
 
     for (int i=0;i<labels.size();i++) {
         auto label = labels.at(i);
 
-        ctx->move_to(cell_width * (i + 0.5), text_height);
+        ctx->move_to(cell_width * i + cell_width - text_width * 0.5, text_height);
 
-        ctx->set_font_size(test_font_size);
-        ctx->get_text_extents(label, extents);
-        ctx->set_font_size(test_font_size / extents.width * text_width);
+        // ctx->get_text_extents(label, extents);
         ctx->rel_move_to(-cell_width/2,0);
         ctx->text_path(label);
     }
