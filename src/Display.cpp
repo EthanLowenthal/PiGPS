@@ -187,11 +187,11 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
     double text_width = cell_width * 0.75;
     double text_height = divider_height * 0.5;
 
-    ctx->move_to(0,divider_height);
-    ctx->line_to(width,divider_height);
+    ctx->move_to(0,divider_y);
+    ctx->line_to(width,divider_y);
 
     ctx->move_to(0,divider_y + divider_height);
-    ctx->line_to(width,divider_height);
+    ctx->line_to(width,divider_y + divider_height);
 
     Cairo::TextExtents extents;
 
