@@ -192,11 +192,8 @@ void Display::draw_compass(double value)
 
 void Display::label_bar(double divider_y, double divider_height, std::vector<std::string> labels)
 {
-
-    // double divider_height = height * 0.1;
     double cell_width = (double)width / labels.size();
     double text_width = cell_width * 0.75;
-    double text_height = divider_height * 0.5;
 
     ctx->move_to(0, divider_y);
     ctx->line_to(width, divider_y);
@@ -207,8 +204,12 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
     Cairo::TextExtents extents;
 
     double font_size = 100;
-    for (int i = 0; i < labels.size(); i++)
+
+    for (int i = 1; i < labels.size(); i++)
     {
+        ctx->move_to(i * cell_width, divider_y + divider_height);
+        ctx->line_to(i * cell_width, divider_y);
+
         auto label = labels.at(i);
 
         ctx->set_font_size(font_size);
@@ -216,12 +217,6 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
         double new_font_size = font_size / extents.width * text_width;
         if (new_font_size < font_size)
             font_size = new_font_size;
-    }
-
-    for (int i = 1; i < labels.size(); i++)
-    {
-        ctx->move_to(i * cell_width, divider_y + divider_height);
-        ctx->line_to(i * cell_width, divider_y);
     }
     ctx->stroke();
 
@@ -232,7 +227,7 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
         auto label = labels.at(i);
 
         ctx->get_text_extents(label, extents);
-        ctx->move_to(cell_width * i + (cell_width - extents.width) * 0.5, divider_y + text_height);
+        ctx->move_to(cell_width * i + (cell_width - extents.width) * 0.5, divider_y + extents.height * 0.5);
         ctx->text_path(label);
     }
 
