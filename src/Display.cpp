@@ -197,21 +197,29 @@ void Display::top_bar(GPS& gps) {
 
     std::string label = currentDateTime();
     Cairo::TextExtents extents;
+
+    double test_font_size = 100;
+    ctx->set_font_size(test_font_size)
     ctx->get_text_extents(label, extents);
-    ctx->rel_move_to(-extents.width/2,extents.height/2);
+    ctx->set_font_size(test_font_size / extents.width * extents.width);
+    ctx->rel_move_to(-cell_width/2,cell_height/2);
     ctx->text_path(label);
 
     ctx->move_to(cell_width * 0.5, text_height);
 
     label = "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible);
+    ctx->set_font_size(test_font_size)
     ctx->get_text_extents(label, extents);
-    ctx->rel_move_to(-extents.width/2,extents.height/2);
+    ctx->set_font_size(test_font_size / extents.width * extents.width);
+    ctx->rel_move_to(-cell_width/2,cell_height/2);
     ctx->text_path(label);
 
     ctx->move_to(cell_width * 1.5, text_height);
     label = "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m";
+    ctx->set_font_size(test_font_size)
     ctx->get_text_extents(label, extents);
-    ctx->rel_move_to(-extents.width/2,extents.height/2);
+    ctx->set_font_size(test_font_size / extents.width * extents.width);
+    ctx->rel_move_to(-cell_width/2,cell_height/2);
     ctx->text_path(label);
 
     ctx->fill();
