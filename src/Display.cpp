@@ -102,7 +102,9 @@ void Display::update(GPS& gps) {
     ctx->set_source_rgb(1, 1, 1);
 
     start_screen(gps);
-    top_bar(gps);
+
+
+    // top_bar(gps);
 
     // str_out << "Latitude: " << gps.lat;
     // put_text(20, line_height);
@@ -176,29 +178,21 @@ void Display::draw_compass(double value) {
     }            
 }
 
-void Display::top_bar(GPS& gps) {
-    double divider_height = height * 0.1;
+void Display::label_bar(double divider_y, double divider_height, std::vector<std::string> labels) {
+
+
+   
+    // double divider_height = height * 0.1;
+    double cell_width = (double)width/labels.size();
+    double text_width = cell_width * 0.75;
+    double text_height = divider_height * 0.5;
 
     ctx->move_to(0,divider_height);
     ctx->line_to(width,divider_height);
 
-    std::vector<std::string> labels {
-        "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible),
-        "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m",
-        currentDateTime(),
-    };
+    ctx->move_to(0,divider_y + divider_height);
+    ctx->line_to(width,divider_height);
 
-    double cell_width = (double)width/labels.size();
-    double text_width = cell_width * 0.75;
-
-    for (int i=1;i<labels.size();i++) {
-        ctx->move_to(i * cell_width,divider_height);
-        ctx->line_to(i * cell_width,0);
-    }
-    ctx->stroke();
-
-
-    double text_height = divider_height * 0.5;
     Cairo::TextExtents extents;
 
     double font_size = 100;
@@ -211,98 +205,42 @@ void Display::top_bar(GPS& gps) {
         if (new_font_size < font_size) font_size = new_font_size;
     }
 
+    for (int i=1;i<labels.size();i++) {
+        ctx->move_to(i * cell_width,divider_y + divider_height);
+        ctx->line_to(i * cell_width,divider_y);
+    }
+    ctx->stroke();
+
     ctx->set_font_size(font_size);
 
     for (int i=0;i<labels.size();i++) {
         auto label = labels.at(i);
 
-        ctx->move_to(cell_width * i + (cell_width - text_width) * 0.5, text_height);
+        ctx->get_text_extents(label, extents);
+        ctx->move_to(cell_width * i + (cell_width - extents.width) * 0.5, divider_y + text_height);
         ctx->text_path(label);
     }
-
-
-    // ctx->move_to(cell_width * 2.5, text_height);
-
-
-    // std::string label = currentDateTime();
-    // 
-
-
-    // ctx->set_font_size(test_font_size);
-    // ctx->get_text_extents(label, extents);
-    // ctx->set_font_size(test_font_size / extents.width * text_width);
-    // ctx->rel_move_to(-cell_width/2,0);
-    // ctx->text_path(label);
-
-    // ctx->move_to(cell_width * 0.5, text_height);
-
-    // label = "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible);
-    // ctx->set_font_size(test_font_size);
-    // ctx->get_text_extents(label, extents);
-    // ctx->set_font_size(test_font_size / extents.width * text_width);
-    // ctx->rel_move_to(-cell_width/2,0);
-    // ctx->text_path(label);
-
-    // ctx->move_to(cell_width * 1.5, text_height);
-    // label = "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m";
-    // ctx->set_font_size(test_font_size);
-    // ctx->get_text_extents(label, extents);
-    // ctx->set_font_size(test_font_size / extents.width * text_width);
-    // ctx->rel_move_to(-cell_width/2,0);
-    // ctx->text_path(label);
 
     ctx->fill();
 }
 
 void Display::start_screen(GPS& gps) {
 
+    // TOP INFO
+
+    label_bar(0, height * 0.1, {
+        "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible),
+        "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m",
+        currentDateTime(),
+    });
+
     // BOTTOM INFO
 
-    double divider_height = height * 0.75;
-    ctx->move_to(0,divider_height);
-    ctx->line_to(width,divider_height);
-
-    int divisions = 3;
-    double cell_width = (double)width/divisions;
-
-    for (int i=1;i<divisions;i++) {
-        ctx->move_to(i * cell_width,divider_height);
-        ctx->line_to(i * cell_width,height);
-    }
-
-    ctx->stroke();
-
-    double text_height = divider_height + (height - divider_height) * 0.5;
-
-    ctx->move_to(cell_width * 0.5, text_height);
-
-    std::string label = to_string_with_precision(gps.speed, 1) + " kts";
-    Cairo::TextExtents extents;
-    ctx->get_text_extents(label, extents);
-    ctx->rel_move_to(-extents.width/2,extents.height/2);
-    ctx->text_path(label);
-
-
-    ctx->move_to(cell_width * 1.5, text_height);
-
-    label = "5:00";
-    ctx->get_text_extents(label, extents);
-    ctx->rel_move_to(-extents.width/2,extents.height/2);
-    ctx->text_path(label);
-
-
-    ctx->fill();
-    ctx->set_source_rgb(0, 1, 0);
-
-    ctx->move_to(cell_width * 2.5, text_height);
-
-    label = "+0:03 | 1m";
-    ctx->get_text_extents(label, extents);
-    ctx->rel_move_to(-extents.width/2,extents.height/2);
-    ctx->text_path(label);
-
-    ctx->fill();
-    ctx->set_source_rgb(1, 1, 1);
+    label_bar(height * 0.75, height * 0.25, {
+        to_string_with_precision(gps.speed, 1) + " kts",
+        "5:00",
+        "+0:03 | 1m",
+    });
 
 
     // START LINE DISPLAY
