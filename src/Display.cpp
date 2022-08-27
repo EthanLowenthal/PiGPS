@@ -247,7 +247,7 @@ void Display::start_screen(GPS& gps) {
 
     double pin_pos = width * 0.15;
     double boat_pos = width * 0.85;
-    double line_height = divider_height * 0.3;
+    double line_height = height * 0.225;
     double buoy_size = 40;
 
     ctx->move_to(pin_pos, line_height);
