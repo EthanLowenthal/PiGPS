@@ -250,7 +250,7 @@ void Display::start_screen(GPS &gps, Data& data)
     std::string time_label = "5:00";
     
     if (data.timer_started) {
-        double current_time = get_current_ms();
+        double current_time = Util::get_current_ms();
         int seconds = (current_time - data.timer_start_time) / 1000;
 
         time_label = std::to_string(seconds / 60)+ ":" + std::to_string(seconds % 60);
@@ -280,7 +280,7 @@ void Display::start_screen(GPS &gps, Data& data)
 
     bool has_pos_data = false;
 
-    double blink = get_current_ms() /
+    double blink = Util::get_current_ms() /
                    250.0;
 
     // if (data.pin_lat == 0 || data.pin_lon == 0) {
