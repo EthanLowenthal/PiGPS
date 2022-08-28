@@ -8,7 +8,7 @@ FLAGS = -std=c++17 -Wall
 
 SRC_DIRS = ./src
 
-LIBS = cairomm-1.0 gps wiringpi
+LIBS = cairomm-1.0 gps wiringPi
 PKGS = cairomm-1.0 libgps
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
