@@ -6,7 +6,7 @@ IO::IO()
     pinMode(TIMER_START_PIN, INPUT);
 }
 
-IO::update(Data& data)
+void IO::update(Data& data)
 {
     if (!data.timer_started)
     {
