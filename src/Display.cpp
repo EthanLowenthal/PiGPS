@@ -93,7 +93,7 @@ void Display::put_text(double x, double y)
     str_out.clear();
 };
 
-void Display::update(GPS &gps)
+void Display::update(GPS &gps, Data& data)
 {
     ctx->set_identity_matrix();
 
@@ -111,7 +111,7 @@ void Display::update(GPS &gps)
 
     ctx->set_source_rgb(1, 1, 1);
 
-    start_screen(gps);
+    start_screen(gps, data);
 
     // top_bar(gps);
 
@@ -234,7 +234,7 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
     ctx->fill();
 }
 
-void Display::start_screen(GPS &gps)
+void Display::start_screen(GPS &gps, Data& data)
 {
 
     // TOP INFO
@@ -247,10 +247,20 @@ void Display::start_screen(GPS &gps)
 
     // BOTTOM INFO
 
+    std::string time_label = "5:00";
+    
+    if (data.timer_started) {
+        double current_time = get_current_ms();
+        int minutes = (current_time - data.timer_start_time) / 60000;
+        int seconds = ((current_time - data.timer_start_time) / 1000) % 60;
+
+        time_label = std::to_string(minutes)+ ":" + std::to_string(seconds);
+    }
+
     label_bar(height * 0.75, height * 0.25, {
                                                 to_string_with_precision(gps.speed, 1) + " kts",
                                                 to_string_with_precision(gps.heading, 1) + "°",
-                                                "5:00",
+                                                time_label,
                                                 "0:00 | 0m",
                                             });
 
@@ -271,9 +281,7 @@ void Display::start_screen(GPS &gps)
 
     bool has_pos_data = false;
 
-    double blink = std::chrono::duration_cast<std::chrono::milliseconds>(
-                       std::chrono::system_clock::now().time_since_epoch())
-                       .count() /
+    double blink = get_current_ms() /
                    250.0;
 
     // if (data.pin_lat == 0 || data.pin_lon == 0) {

@@ -1,19 +1,19 @@
 #ifndef DATA_H
 #define DATA_H
 
-class Data {
-    public:
-        double pin_lat {};
-        double pin_lon {};
+struct Data {
+    double pin_lat {};
+    double pin_lon {};
 
-        double boat_lat {};
-        double boat_lon {};
+    double boat_lat {};
+    double boat_lon {};
 
-        double wind_dir {};
+    double wind_dir {};
 
-        double time_to_start {};
+    bool timer_started {false};
+    double timer_start_time {};
 
-        Data();
+    Data();
 };
 
 #endif
