@@ -1,4 +1,4 @@
-# g++ $(pkg-config --cflags --libs cairomm-1.0 libgps) -std=c++17 GPS.cpp FrameBuffer.cpp main.cpp -o main -lcairomm-1.0 -lgps
+# g++ $(pkg-config --cflags --libs cairomm-1.0 libgps) -std=c++17 GPS.cpp FrameBuffer.cpp main.cpp -o main -lcairomm-1.0 -lgps -lwiringPi
 
 CXX = g++
 
@@ -8,7 +8,7 @@ FLAGS = -std=c++17 -Wall
 
 SRC_DIRS = ./src
 
-LIBS = cairomm-1.0 gps
+LIBS = cairomm-1.0 gps wiringpi
 PKGS = cairomm-1.0 libgps
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
