@@ -8,7 +8,7 @@ IO::IO()
 
 void IO::update(Data& data)
 {
-    if (digitalRead(TIMER_START_PIN) && !data.timer_started)
+    if (digitalRead(TIMER_START_PIN) == 1 && !data.timer_started)
     {
         data.timer_started = true;
         data.timer_start_time = Util::get_current_ms();
