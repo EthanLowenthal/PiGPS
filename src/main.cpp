@@ -6,6 +6,8 @@
 // #include <cairomm/context.h>
 // #include <cairomm/surface.h>
 
+#include <wiringPi.h>
+
 #include "Display.h"
 #include "GPS.h"
 
