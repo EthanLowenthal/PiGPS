@@ -12,7 +12,7 @@ public:
     void update(Data& data);
 
 private:
-    int TIMER_START_PIN = 1;
+    int TIMER_START_PIN = 8;
 };
 
 #endif
