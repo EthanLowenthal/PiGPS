@@ -251,10 +251,9 @@ void Display::start_screen(GPS &gps, Data& data)
     
     if (data.timer_started) {
         double current_time = get_current_ms();
-        int minutes = (current_time - data.timer_start_time) / 60000;
-        int seconds = ((current_time - data.timer_start_time) / 1000) % 60;
+        int seconds = (current_time - data.timer_start_time) / 1000;
 
-        time_label = std::to_string(minutes)+ ":" + std::to_string(seconds);
+        time_label = std::to_string(seconds / 60)+ ":" + std::to_string(seconds % 60);
     }
 
     label_bar(height * 0.75, height * 0.25, {
