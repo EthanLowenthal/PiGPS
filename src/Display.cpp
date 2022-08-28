@@ -248,9 +248,9 @@ void Display::start_screen(GPS &gps)
     // BOTTOM INFO
 
     label_bar(height * 0.75, height * 0.25, {
-                                                to_string_with_precision(gps.speed, 1) + " kts",
+                                                to_string_with_precision(gps.speed, 1) + " kts | " + to_string_with_precision(gps.heading, 1) + "°",
                                                 "5:00",
-                                                "+0:03 | 1m",
+                                                "0:00 | 0m",
                                             });
 
     // START LINE DISPLAY
