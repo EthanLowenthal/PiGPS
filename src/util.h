@@ -8,7 +8,7 @@ using Position = vec2d;
 struct Util
 {
 
-    const double DEG_RAD = M_PI / 180;
+    static const double DEG_RAD = M_PI / 180;
 
     static double get_current_ms()
     {

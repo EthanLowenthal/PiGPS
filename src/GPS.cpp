@@ -40,7 +40,7 @@ void GPS::update(Data& data)
     satellites_used = gpsd_data->satellites_used;
     satellites_visible = gpsd_data->satellites_visible;
 
-    last_update = Util::get_current_time();
+    last_update = Util::get_current_ms();
 
 
     // const auto hdop{gpsd_data->dop.hdop};
