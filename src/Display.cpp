@@ -113,7 +113,7 @@ void Display::draw_compass(double value)
 
     ctx->begin_new_path();
     ctx->translate(width / 2, height / 2); // position
-    ctx->arc_negative(0, 0, compass_rad, Util::DEG_RAD * (compass_arc - 90), Util::DEG_RAD * (-compass_arc - 90));
+    ctx->arc_negative(0, 0, compass_rad, DEG_RAD * (compass_arc - 90), DEG_RAD * (-compass_arc - 90));
     ctx->stroke();
 
     ctx->move_to(0, 0);
@@ -130,13 +130,13 @@ void Display::draw_compass(double value)
     ctx->set_font_size(20);
 
     int offset = (int)value % 5;
-    ctx->rotate(Util::DEG_RAD * (-offset - 45));
+    ctx->rotate(DEG_RAD * (-offset - 45));
     for (int true_deg = -compass_arc - offset; true_deg <= compass_arc - offset; true_deg += 5)
     {
         int deg = true_deg + (int)value + 5;
 
         ctx->move_to(0, 0);
-        ctx->rotate(Util::DEG_RAD * 5);
+        ctx->rotate(DEG_RAD * 5);
         ctx->rel_move_to(0, -compass_rad - 30);
 
         int line_length = get_compass_line_length(deg);
