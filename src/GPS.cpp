@@ -21,43 +21,27 @@ double latLonDist(double lat1, double long1, double lat2, double long2)
     return dist;
 }
 
-void GPS::update()
+void GPS::update(Data& data)
 {
-    if (gps_rec.stream(WATCH_ENABLE | WATCH_JSON) == nullptr)
-    {
-        return;
-    }
-
+    if (gps_rec.stream(WATCH_ENABLE | WATCH_JSON) == nullptr) return;
+    
     struct gps_data_t *gpsd_data;
 
-    if (((gpsd_data = gps_rec.read()) == nullptr) || (gpsd_data->fix.mode < MODE_2D))
-    {
-        return;
-    }
+    if (((gpsd_data = gps_rec.read()) == nullptr) || (gpsd_data->fix.mode < MODE_2D)) return;
+    
 
-    speed = gpsd_data->fix.speed * MPS_TO_KTS;
-    heading = gpsd_data->fix.magnetic_track; // track is cmg
+    data.speed = gpsd_data->fix.speed * MPS_TO_KTS;
+    data.heading = gpsd_data->fix.magnetic_track; // track is cmg
+    data.current_pos.latitude() = gpsd_data->fix.latitude;
+    data.current_pos.longitude() = gpsd_data->fix.longitude;
 
     accuracy = sqrt(gpsd_data->fix.epy * gpsd_data->fix.epy + gpsd_data->fix.epx * gpsd_data->fix.epx);
 
     satellites_used = gpsd_data->satellites_used;
     satellites_visible = gpsd_data->satellites_visible;
 
-    double eps = gpsd_data->fix.eps;
-    timespec time = gpsd_data->fix.time;
+    last_update = Util::get_current_time();
 
-    double new_lat = gpsd_data->fix.latitude;
-    double new_lon = gpsd_data->fix.longitude;
-
-    double current_time = gpsd_data->fix.time.tv_sec;
-    double dt = current_time - last_update;
-
-    double dist_traveled = latLonDist(lat, lon, new_lat, new_lon);
-    double estimated_speed = dist_traveled / dt * 2.237e+12;
-
-    last_update = current_time;
-    lat = new_lat;
-    lon = new_lon;
 
     // const auto hdop{gpsd_data->dop.hdop};
     // const auto vdop{gpsd_data->dop.vdop};

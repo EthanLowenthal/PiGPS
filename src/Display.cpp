@@ -1,7 +1,5 @@
 #include "Display.h"
 
-const double DEG_RAD = M_PI / 180;
-
 std::map<int, Cairo::Format> bpp_to_format{
     {32, Cairo::Format::FORMAT_ARGB32},
     {16, Cairo::Format::FORMAT_RGB16_565}};
@@ -15,36 +13,6 @@ int get_compass_line_length(int deg)
     if (deg % 5 == 0)
         return 10;
     return 0;
-}
-
-double lat_lon_bearing(double la1, double lo1, double la2, double lo2)
-{
-    double lat1 = la1 * DEG_RAD;
-    double lon1 = lo1 * DEG_RAD;
-    double lat2 = la2 * DEG_RAD;
-    double lon2 = lo2 * DEG_RAD;
-
-    double x = cos(lat2) * sin(lon2 - lon1);
-    double y = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(lon2 - lon1);
-    return atan2(x, y) / DEG_RAD;
-}
-
-double lat_lon_dist(double la1, double lo1, double la2, double lo2)
-{
-    const int RADIUS = 6371000;
-
-    double lat1 = la1 * DEG_RAD;
-    double lon1 = lo1 * DEG_RAD;
-    double lat2 = la2 * DEG_RAD;
-    double lon2 = lo2 * DEG_RAD;
-
-    double d_lat = (lat2 - lat1);
-    double d_lon = (lon2 - lon1);
-
-    double a = sin(d_lat / 2) * sin(d_lat / 2) + cos(lat1) * cos(lat1) * sin(d_lon / 2) * sin(d_lon / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-    return c * RADIUS;
 }
 
 template <typename T>
@@ -93,7 +61,7 @@ void Display::put_text(double x, double y)
     str_out.clear();
 };
 
-void Display::update(GPS &gps, Data& data)
+void Display::update(GPS &gps, Data &data)
 {
     ctx->set_identity_matrix();
 
@@ -145,7 +113,7 @@ void Display::draw_compass(double value)
 
     ctx->begin_new_path();
     ctx->translate(width / 2, height / 2); // position
-    ctx->arc_negative(0, 0, compass_rad, DEG_RAD * (compass_arc - 90), DEG_RAD * (-compass_arc - 90));
+    ctx->arc_negative(0, 0, compass_rad, Util::DEG_RAD * (compass_arc - 90), Util::DEG_RAD * (-compass_arc - 90));
     ctx->stroke();
 
     ctx->move_to(0, 0);
@@ -162,13 +130,13 @@ void Display::draw_compass(double value)
     ctx->set_font_size(20);
 
     int offset = (int)value % 5;
-    ctx->rotate(DEG_RAD * (-offset - 45));
+    ctx->rotate(Util::DEG_RAD * (-offset - 45));
     for (int true_deg = -compass_arc - offset; true_deg <= compass_arc - offset; true_deg += 5)
     {
         int deg = true_deg + (int)value + 5;
 
         ctx->move_to(0, 0);
-        ctx->rotate(DEG_RAD * 5);
+        ctx->rotate(Util::DEG_RAD * 5);
         ctx->rel_move_to(0, -compass_rad - 30);
 
         int line_length = get_compass_line_length(deg);
@@ -234,7 +202,7 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
     ctx->fill();
 }
 
-void Display::start_screen(GPS &gps, Data& data)
+void Display::start_screen(GPS &gps, Data &data)
 {
 
     // TOP INFO
@@ -248,20 +216,21 @@ void Display::start_screen(GPS &gps, Data& data)
     // BOTTOM INFO
 
     std::string time_label = "5:00";
-    
-    if (data.timer_started) {
+
+    if (data.timer_started)
+    {
         double current_time = Util::get_current_ms();
         int seconds = 300 - (current_time - data.timer_start_time) / 1000;
-
+        seconds = std::max(seconds, 0);
         auto seconds_string = std::to_string(seconds % 60);
         seconds_string.insert(0, 2 - seconds_string.length(), '0');
 
-        time_label = std::to_string(seconds / 60)+ ":" + seconds_string;
+        time_label = std::to_string(seconds / 60) + ":" + seconds_string;
     }
 
     label_bar(height * 0.75, height * 0.25, {
-                                                to_string_with_precision(gps.speed, 1) + " kts",
-                                                to_string_with_precision(gps.heading, 1) + "°",
+                                                to_string_with_precision(data.speed, 1) + " kts",
+                                                to_string_with_precision(data.heading, 1) + "°",
                                                 time_label,
                                                 "0:00 | 0m",
                                             });
@@ -281,13 +250,10 @@ void Display::start_screen(GPS &gps, Data& data)
         0,
         2 * M_PI);
 
-    bool has_pos_data = false;
-
     double blink = Util::get_current_ms() /
                    250.0;
 
-    // if (data.pin_lat == 0 || data.pin_lon == 0) {
-    if (true)
+    if (data.pin_pos.is_zero())
     {
         double b = (sin(blink) + 1) / 2.0;
         ctx->set_source_rgb(b, b, b);
@@ -295,7 +261,6 @@ void Display::start_screen(GPS &gps, Data& data)
     else
     {
         ctx->set_source_rgb(1, 1, 1);
-        has_pos_data = true;
     }
     ctx->fill();
 
@@ -305,8 +270,7 @@ void Display::start_screen(GPS &gps, Data& data)
         buoy_size,
         buoy_size);
 
-    // if (data.boat_lat == 0 || data.boat_lon == 0) {
-    if (true)
+    if (data.boat_pos.is_zero())
     {
         double b = (sin(blink) + 1) / 2.0;
         ctx->set_source_rgb(b, b, b);
@@ -314,7 +278,6 @@ void Display::start_screen(GPS &gps, Data& data)
     else
     {
         ctx->set_source_rgb(1, 1, 1);
-        has_pos_data = true;
     }
     ctx->fill();
 
@@ -349,8 +312,27 @@ void Display::start_screen(GPS &gps, Data& data)
     // ctx->fill();
     ctx->set_source_rgb(1, 1, 1);
 
-    // TODO draw player
-    // if (has_pos_data) {
-    //
-    // }
+    if (!data.pin_pos.is_zero() && !data.boat_pos.is_zero())
+    {
+        double line_angle = Util::lat_lon_bearing(data.pin_pos, data.boat_pos);
+        double line_dist = Util::lat_lon_dist(data.pin_pos, data.boat_pos);
+
+        double pin_angle = Util::lat_lon_bearing(data.pin_pos, data.current_pos);
+        double pin_dist = Util::lat_lon_bearing(data.pin_pos, data.current_pos);
+
+        double line_dist_screen = boat_pos - pin_pos;
+
+        vec2d screen_pos = {cos(pin_angle + line_angle), sin(pin_angle + line_angle)};
+        screen_pos *= pin_dist * line_dist_screen / line_dist;
+
+        double person_size = 50;
+        ctx->rectangle(
+            screen_pos.x - person_size / 2,
+            screen_pos.y - person_size / 2,
+            person_size,
+            person_size);
+
+        ctx->set_source_rgb(0, 1, 0);
+        ctx->fill();
+    }
 }

@@ -9,6 +9,9 @@
 #include <thread>
 #include <time.h>
 
+#include "util.h"
+#include "Data.h"
+
 #ifndef GPS_H
 #define GPS_H
 
@@ -17,17 +20,14 @@ class GPS
     // https://github.com/ukyg9e5r6k7gubiekd6/gpsd/blob/master/gps.h
 public:
     gpsmm gps_rec;
-    double lat{};
-    double lon{};
-    double speed{};
-    double heading{};
+   
     double last_update{};
     double accuracy{};
 
     int satellites_used{};
     int satellites_visible{};
 
-    void update();
+    void update(Data& data);
     GPS();
 };
 

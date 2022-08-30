@@ -35,7 +35,7 @@ int main()
   {
     // current_ticks = clock();
     io.update(data);
-    gps.update();
+    gps.update(data);
     display.update(gps, data);
   }
 }
