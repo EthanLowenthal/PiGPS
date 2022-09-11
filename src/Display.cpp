@@ -74,7 +74,6 @@ void Display::update(GPS &gps, Data &data)
                           Cairo::FontWeight::FONT_WEIGHT_BOLD);
 
     double font_size = 40;
-    double line_height = font_size + 10;
     ctx->set_font_size(font_size);
 
     ctx->set_source_rgb(1, 1, 1);
@@ -173,7 +172,7 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
 
     double font_size = 100;
 
-    for (int i = 1; i < labels.size(); i++)
+    for (unsigned int i = 1; i < labels.size(); i++)
     {
         ctx->move_to(i * cell_width, divider_y + divider_height);
         ctx->line_to(i * cell_width, divider_y);
@@ -190,7 +189,7 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
 
     ctx->set_font_size(font_size);
 
-    for (int i = 0; i < labels.size(); i++)
+    for (unsigned int i = 0; i < labels.size(); i++)
     {
         auto label = labels.at(i);
 
