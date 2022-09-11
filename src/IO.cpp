@@ -40,11 +40,11 @@ void IO::update(Data& data)
         data.pin_pos = data.current_pos;       
     }
 
-    btn_released.at(TIMER_START_PIN) = digitalRead(TIMER_START_PIN) == HIGH;
-    btn_released.at(TIMER_RESET_PIN) = digitalRead(TIMER_RESET_PIN) == HIGH;
-    btn_released.at(TIMER_RECALL_PIN) = digitalRead(TIMER_RECALL_PIN) == HIGH;
-    btn_released.at(MODE_PIN) = digitalRead(MODE_PIN) == HIGH;
-    btn_released.at(BOAT_PIN) = digitalRead(BOAT_PIN) == HIGH;
-    btn_released.at(PIN_PIN) = digitalRead(PIN_PIN) == HIGH;
+    btn_presses.at(TIMER_START_PIN) = digitalRead(TIMER_START_PIN) == HIGH;
+    btn_presses.at(TIMER_RESET_PIN) = digitalRead(TIMER_RESET_PIN) == HIGH;
+    btn_presses.at(TIMER_RECALL_PIN) = digitalRead(TIMER_RECALL_PIN) == HIGH;
+    btn_presses.at(MODE_PIN) = digitalRead(MODE_PIN) == HIGH;
+    btn_presses.at(BOAT_PIN) = digitalRead(BOAT_PIN) == HIGH;
+    btn_presses.at(PIN_PIN) = digitalRead(PIN_PIN) == HIGH;
 
 }
