@@ -13,7 +13,7 @@
 #include "Data.h"
 #include "IO.h"
 
-#define DEV_MODE 1
+#define DEV_MODE 0
 
 int main()
 {

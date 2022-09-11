@@ -312,7 +312,7 @@ void Display::start_screen(GPS &gps, Data &data)
     // ctx->fill();
     ctx->set_source_rgb(1, 1, 1);
 
-    if (!data.pin_pos.is_zero() && !data.boat_pos.is_zero())
+    if (!data.pin_pos.is_zero() && !data.boat_pos.is_zero() && !data.current_pos.is_zero())
     {
         double line_angle = Util::lat_lon_bearing(data.pin_pos, data.boat_pos);
         double line_dist = Util::lat_lon_dist(data.pin_pos, data.boat_pos);
