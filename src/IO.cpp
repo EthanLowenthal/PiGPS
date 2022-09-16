@@ -39,7 +39,7 @@ void IO::update(Data& data)
     if (btn_pressed(TIMER_RECALL_PIN))
     {
         double current_time = Util::get_current_ms();
-        double ms_passed = current_time - data.timer_start_time;
+        int ms_passed = current_time - data.timer_start_time;
         ms_passed %= 60 * 1000;
         double ms_remaining = 60 * 1000 - ms_passed;
         data.timer_start_time -= ms_remaining;
