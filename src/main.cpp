@@ -14,6 +14,7 @@
 #include "IO.h"
 
 #define DEV_MODE 0
+#define RPI 0
 
 int main()
 {

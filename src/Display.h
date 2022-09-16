@@ -39,6 +39,7 @@ public:
     void update(GPS &gps, Data& data);
     void draw_compass(double value);
     void start_screen(GPS &gps, Data& data);
+    void data_screen(GPS &gps, Data& data);
     void label_bar(double divider_y, double divider_height, std::vector<std::string> labels);
 };
 

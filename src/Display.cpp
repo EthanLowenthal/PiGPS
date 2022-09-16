@@ -78,7 +78,8 @@ void Display::update(GPS &gps, Data &data)
 
     ctx->set_source_rgb(1, 1, 1);
 
-    start_screen(gps, data);
+    // start_screen(gps, data);
+    data_screen(gps, data);
 
     // top_bar(gps);
 
@@ -200,7 +201,15 @@ void Display::label_bar(double divider_y, double divider_height, std::vector<std
 
     ctx->fill();
 }
-
+void Display::data_screen(GPS &gps, Data &data)
+{
+    label_bar(0, height * 0.1, {
+                                   "Sats: " + std::to_string(gps.satellites_used) + "/" + std::to_string(gps.satellites_visible),
+                                   "Accuracy: " + to_string_with_precision(gps.accuracy, 2) + "m",
+                                   currentDateTime(),
+                               });
+    draw_compass(data.speed);
+}
 void Display::start_screen(GPS &gps, Data &data)
 {
 
