@@ -18,6 +18,9 @@ PKG_FLAGS = $(shell pkg-config --cflags --libs $(PKGS))
 $(TARGET):
 	$(CXX) $(PKG_FLAGS) $(FLAGS) $(SRCS) -o $(OUTPUT) $(LIB_FLAGS)
 
+.PHONY: nowiringpi
+nowiringpi:
+	g++ $(pkg-config --cflags --libs cairomm-1.0 libgps) -std=c++17 GPS.cpp FrameBuffer.cpp main.cpp -o main -lcairomm-1.0 -lgps
 
 .PHONY: debug
 debug:
